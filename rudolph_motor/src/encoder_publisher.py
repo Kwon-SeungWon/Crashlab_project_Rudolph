@@ -19,22 +19,22 @@ from std_msgs.msg import Int32, Float32
 import pigpio
 from rotary_encoder import Decoder
 
-MTR_DEBUG = False  # enable/disable printing of mtr pwm values
+MTR_DEBUG = False  # e7able/disable printing of mtr pwm values
 
 # Set up gpio (Broadcom) pin aliases
-left_mtr_spd_pin = 17
-left_mtr_in1_pin = 27
-left_mtr_in2_pin = 22
+left_mtr_spd_pin = 26
+left_mtr_in1_pin = 19
+#left_mtr_in2_pin = 22
 
-right_mtr_spd_pin = 11
-right_mtr_in1_pin = 10
-right_mtr_in2_pin = 9
+right_mtr_spd_pin = 13
+right_mtr_in1_pin = 6
+#right_mtr_in2_pin = 9
 
-left_enc_A_pin = 7
-left_enc_B_pin = 8
+left_enc_A_pin = 23
+left_enc_B_pin = 24
 
-right_enc_A_pin = 23
-right_enc_B_pin = 24
+right_enc_A_pin = 17
+right_enc_B_pin = 27
 
 TRS_CURVE = rospy.get_param('ROBOT_TRS_CURVE')
 TRS_COEFF = None
@@ -184,23 +184,23 @@ def set_mtr_spd(pi, latr, ratr):
     # Set motor direction pins appropriately
     if L_mode == 'FWD':
         pi.write(left_mtr_in1_pin, 0)
-        pi.write(left_mtr_in2_pin, 1)
+        pi.write(left_mtr_in1_pin, 1)
     elif L_mode == 'REV':
         pi.write(left_mtr_in1_pin, 1)
-        pi.write(left_mtr_in2_pin, 0)
+        pi.write(left_mtr_in1_pin, 0)
     else:  # Parked
         pi.write(left_mtr_in1_pin, 0)
-        pi.write(left_mtr_in2_pin, 0)
+        pi.write(left_mtr_in1_pin, 0)
 
     if R_mode == 'FWD':
-        pi.write(right_mtr_in1_pin, 0)
-        pi.write(right_mtr_in2_pin, 1)
-    elif R_mode == 'REV':
         pi.write(right_mtr_in1_pin, 1)
-        pi.write(right_mtr_in2_pin, 0)
+        pi.write(right_mtr_in1_pin, 0)
+    elif R_mode == 'REV':
+        pi.write(right_mtr_in1_pin, 0)
+        pi.write(right_mtr_in1_pin, 1)
     else:  # Parked
         pi.write(right_mtr_in1_pin, 0)
-        pi.write(right_mtr_in2_pin, 0)
+        pi.write(right_mtr_in1_pin, 0)
 
     # Find tick rate error
     L_err = abs(L_ttr) - abs(latr)

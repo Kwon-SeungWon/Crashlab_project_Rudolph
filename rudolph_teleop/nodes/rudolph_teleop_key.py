@@ -42,7 +42,7 @@ LIN_VEL_STEP_SIZE = 0.05
 ANG_VEL_STEP_SIZE = 0.1
 
 msg = """
-Control Your HONGDO Robot!
+Control Your Rudolph Robot!
 ---------------------------
 Moving around:
         w
