@@ -9,6 +9,7 @@ project(rudolph_motor)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   rospy
+  roscpp
 )
 
 ## System dependencies are found with CMake's conventions

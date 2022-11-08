@@ -55,6 +55,10 @@
   <build_export_depend>rospy</build_export_depend>
   <exec_depend>move_base</exec_depend>
   <exec_depend>rospy</exec_depend>
+  <exec_depend>amcl</exec_depend>
+  <exec_depend>map_server</exec_depend>
+  <exec_depend>move_base</exec_depend>
+  <exec_depend>rudolph_bringup</exec_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
