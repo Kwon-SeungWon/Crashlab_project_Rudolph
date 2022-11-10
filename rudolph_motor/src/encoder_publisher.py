@@ -279,7 +279,7 @@ if __name__ == '__main__':
     right_decoder = Decoder(pi, right_enc_A_pin, right_enc_B_pin, right_enc_callback)
     right_pub_ticks = rospy.Publisher('right_ticks', Int32, queue_size=10)
     rospy.init_node('wheels', anonymous=True)
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(50)
 
     # Set up to publish actual velocity
     actual_vel = Twist()
