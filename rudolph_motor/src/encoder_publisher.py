@@ -133,7 +133,7 @@ def tr_to_spd(tick_rate):
     spd = 0
     for lower_limit, m, b in TRS_COEFF:
         if tick_rate > lower_limit:
-            spd = int(m * tick_rate + b)
+            spd = int(0.03*m * tick_rate + 0.02*b)
             break
     return spd
     
@@ -295,6 +295,9 @@ if __name__ == '__main__':
         # publish cumulative tick data
         left_pub_ticks.publish(left_pos)
         right_pub_ticks.publish(right_pos)
+
+        # print(left_pos)
+        # print(right_pos)
 
         # Calculate actual tick rate for left & right wheels
         delta_left_pos = left_pos - prev_left_pos
