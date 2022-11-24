@@ -5,9 +5,10 @@
     </node>
 
     <!-- Launch wheel encoder tick publisher node -->
-    <node name="mtr_encdr" pkg="rudolph_motor" type="encoder_publisher.py" output="screen">
+    <node name="rudolph_motor" pkg="rudolph_motor" type="encoder_publisher.py" output="screen">
     </node>
 
+    <!-- Launch IMU node -->;
     
     <!-- <arg name="serial_port" default="/dev/ttyUSB_IMU" />
     <arg name="frame_id" default="imu_link" />
