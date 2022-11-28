@@ -146,6 +146,7 @@ while not rospy.is_shutdown():
 
     # set the velocity w/r/t the child_frame
     odom.child_frame_id = "base_link"
+    #odom.child_frame_id = "base_footprint"
     # odom.twist.twist = Twist(Vector3(vx, 0, 0), Vector3(0, 0, vth))
     odom.twist.twist.linear.x = vx
     odom.twist.twist.linear.y = 0.0

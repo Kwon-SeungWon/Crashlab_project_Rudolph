@@ -14,8 +14,8 @@
     <!-- Launch IMU node -->
     <include file="$(find rudolph_bringup)/launch/rudolph_imu.launch"/> 
 
-    <node pkg="tf2_ros" type="static_transform_publisher" name="tf_base_link_imu" args="0 0 0.08 0 0 0 1 base_link imu_link" />
-    <node pkg="tf2_ros" type="static_transform_publisher" name="tf_base_link_laser" args="0 0 0.17 0 0 0 1 base_link laser" />
+    <!-- <node pkg="tf2_ros" type="static_transform_publisher" name="tf_base_link_imu" args="0 0 0.08 0 0 0 1 base_link imu_link" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="tf_base_link_laser" args="0 0 0.17 0 0 0 1 base_link laser" /> -->
 
     <!-- Launch odom node-->
     <node name="rudolph_odom" pkg="rudolph_odom" type="odometer_publisher.py" output="screen">
@@ -35,6 +35,7 @@
         <param name="debug" value="false"/>
         <param name="self_diagnose" value="false"/>
     </node>
+    
     <!-- <include file="$(find iahrs_driver)/launch/iahrs_driver.launch" /> -->
 
     <!-- <arg name="serial_port" default="/dev/ttyUSB_IMU" />
