@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <robot name="rudolph" xmlns:xacro="http://ros.org/wiki/xacro">
-
-  <!-- <link name="base_footprint">
-    <origin xyz="0 0.0 0.07" rpy="0 0 0.0"/>
-  </link> -->
-
-  <!-- <joint name="base_joint" type="fixed">
-    <parent link="base_footprint"/>
-    <child link="base_link" />
-    <origin xyz="0 0.0 0.07" rpy="0 0 0.0"/>
-  </joint> -->
-
+  <link
+    name="base_footprint"/>
+    
   <link
     name="base_link">
     <inertial>
       <origin
-        xyz="-0.120550893741821 -0.0347091123720588 0.910831210029086"
+        xyz="0.131972648848621 0.00781378784896655 -0.189759828642779"
         rpy="0 0 0" />
       <mass
-        value="17.1019895136775" />
+        value="16.2843429315004" />
       <inertia
-        ixx="0.254053450833975"
-        ixy="-7.48278540708386E-07"
-        ixz="8.34417766834215E-05"
-        iyy="0.274581228912765"
-        iyz="3.76525652230737E-05"
-        izz="0.0873057846565018" />
+        ixx="0.0779362040037241"
+        ixy="8.3441776683422E-05"
+        ixz="3.76525652230747E-05"
+        iyy="0.244687110321463"
+        iyz="-7.4827854070795E-07"
+        izz="0.255850213626969" />
     </inertial>
     <visual>
       <origin
@@ -51,21 +43,32 @@
       </geometry>
     </collision>
   </link>
+  <joint
+    name="base_joint"
+    type="fixed">
+    <origin
+      xyz="0.015 0 0.286"
+      rpy="0 0 0" />
+    <parent
+      link="base_footprint" />
+    <child
+      link="base_link" />
+  </joint>
   <link
-    name="wheel_link_left">
+    name="wheel_left_link">
     <inertial>
       <origin
-        xyz="-5.66452218464519E-10 -0.00719908752865073 -7.36966135339578E-09"
+        xyz="5.66452218464519E-10 7.36966135339578E-09 0.00719908752865073"
         rpy="0 0 0" />
       <mass
         value="0.168927903784756" />
       <inertia
         ixx="0.000180293267613982"
-        ixy="-5.97256751758435E-13"
-        ixz="3.49702843019566E-10"
-        iyy="0.000340883721559519"
-        iyz="-1.35625444840775E-11"
-        izz="0.000180293249898382" />
+        ixy="3.4970284301282E-10"
+        ixz="-5.97256750240857E-13"
+        iyy="0.000180293249898382"
+        iyz="-1.35625444846716E-11"
+        izz="0.000340883721559519" />
     </inertial>
     <visual>
       <origin
@@ -73,12 +76,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://rudolph_description/meshes/wheel_link_left.STL" />
+          filename="package://rudolph_description/meshes/wheel_left_link.STL" />
       </geometry>
       <material
         name="">
         <color
-          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+          rgba="0.298039215686275 0.298039215686275 0.298039215686275 1" />
       </material>
     </visual>
     <collision>
@@ -87,41 +90,39 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://rudolph_description/meshes/wheel_link_left.STL" />
+          filename="package://rudolph_description/meshes/wheel_left_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="wheel_joint_left"
+    name="wheel_left_joint"
     type="continuous">
     <origin
-      xyz="0.070409 -1.0997 -0.1752"
-      rpy="0 0 1.5708" />
+      xyz="0.305 0.1984 -0.335"
+      rpy="-1.5708 0 0" />
     <parent
       link="base_link" />
     <child
-      link="wheel_link_left" />
+      link="wheel_left_link" />
     <axis
-      xyz="0 1 0" />
-    <limit
-      effort="1"
-      velocity="1" />
+      xyz="0 0 1" />
+
   </joint>
   <link
-    name="wheel_link_right">
+    name="wheel_right_link">
     <inertial>
       <origin
-        xyz="4.18066047449539E-05 0.00689908752879648 -0.000159781687999766"
+        xyz="-4.18066047449539E-05 0.000159781687999766 -0.00689908752879648"
         rpy="0 0 0" />
       <mass
         value="0.168927903787938" />
       <inertia
         ixx="0.000180293267616404"
-        ixy="5.97538913248068E-13"
-        ixz="-3.49701477254367E-10"
-        iyy="0.00034088372156304"
-        iyz="-1.35624258701106E-11"
-        izz="0.000180293249900034" />
+        ixy="-3.49701477254306E-10"
+        ixz="5.97538913030496E-13"
+        iyy="0.000180293249900034"
+        iyz="-1.35624258699905E-11"
+        izz="0.00034088372156304" />
     </inertial>
     <visual>
       <origin
@@ -129,12 +130,12 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://rudolph_description/meshes/wheel_link_right.STL" />
+          filename="package://rudolph_description/meshes/wheel_right_link.STL" />
       </geometry>
       <material
         name="">
         <color
-          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+          rgba="0.298039215686275 0.298039215686275 0.298039215686275 1" />
       </material>
     </visual>
     <collision>
@@ -143,40 +144,37 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://rudolph_description/meshes/wheel_link_right.STL" />
+          filename="package://rudolph_description/meshes/wheel_right_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="wheel_joint_right"
+    name="wheel_right_joint"
     type="continuous">
     <origin
-      xyz="-0.32639 -1.0997 -0.1752"
-      rpy="0 0 1.5708" />
+      xyz="0.305 -0.1984 -0.335"
+      rpy="-1.5708 0 0" />
     <parent
       link="base_link" />
     <child
-      link="wheel_link_right" />
+      link="wheel_right_link" />
     <axis
-      xyz="0 1 0" />
-    <limit
-      effort="1"
-      velocity="1" />
+      xyz="0 0 1" />
   </joint>
   <link
     name="base_scan">
     <inertial>
       <origin
-        xyz="0.00055275070309202 0.000128923721493701 0.0237777439431405"
+        xyz="-0.00055275070309202 -0.000128923721493701 0.0237777439431405"
         rpy="0 0 0" />
       <mass
         value="0.1705594842876" />
       <inertia
         ixx="6.25710200204087E-05"
         ixy="3.56061447529149E-07"
-        ixz="-1.67650800056962E-08"
+        ixz="1.67650800056965E-08"
         iyy="6.29968977443721E-05"
-        iyz="-2.97146817080013E-08"
+        iyz="2.97146817080013E-08"
         izz="0.000112518091325659" />
     </inertial>
     <visual>
@@ -185,7 +183,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://rudolph_description/meshes/lidar_link.STL" />
+          filename="package://rudolph_description/meshes/base_scan.STL" />
       </geometry>
       <material
         name="">
@@ -199,41 +197,36 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://rudolph_description/meshes/lidar_link.STL" />
+          filename="package://rudolph_description/meshes/base_scan.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="lidar_joint"
+    name="scan_joint"
     type="fixed">
     <origin
-      xyz="-0.12799 -1.0721 0.2098"
-      rpy="0 0 1.5708" />
+      xyz="0.2774 0 0.05"
+      rpy="0 0 0" />
     <parent
       link="base_link" />
     <child
       link="base_scan" />
-    <axis
-      xyz="0 0 0" />
-    <limit
-      effort="1"
-      velocity="1" />
   </joint>
   <link
     name="camera_link">
     <inertial>
       <origin
-        xyz="-0.00697276219188736 -6.99635706008506E-07 0.0134820212516309"
+        xyz="0.00593852099291037 5.09399578102476E-07 0.0078405517238036"
         rpy="0 0 0" />
       <mass
-        value="0.0429003780626047" />
+        value="0.0581895549431421" />
       <inertia
-        ixx="1.93459371548728E-05"
-        ixy="-4.25271059885222E-10"
-        ixz="4.82620928760581E-08"
-        iyy="5.10056119564288E-06"
-        iyz="-3.06968376268855E-10"
-        izz="2.07864274328571E-05" />
+        ixx="2.149536557957E-05"
+        ixy="-4.2527105988449E-10"
+        ixz="-4.30001305453016E-08"
+        iyy="7.24787648497859E-06"
+        iyz="3.0696837626941E-10"
+        izz="2.48443953527899E-05" />
     </inertial>
     <visual>
       <origin
@@ -263,33 +256,28 @@
     name="camera_joint"
     type="fixed">
     <origin
-      xyz="-0.13757 -1.1528 0.1728"
-      rpy="0 0 1.5708" />
+      xyz="0.35808 -0.0095764 0.013"
+      rpy="0 0 0" />
     <parent
       link="base_link" />
     <child
       link="camera_link" />
-    <axis
-      xyz="0 0 0" />
-    <limit
-      effort="1"
-      velocity="1" />
   </joint>
   <link
-    name="caster_link">
+    name="caster_back_link">
     <inertial>
       <origin
-        xyz="-0.00712939689443792 -8.95324089866811E-09 0.0131605253570176"
+        xyz="0.00712939689443792 -0.0131605253570176 8.95324089866811E-09"
         rpy="0 0 0" />
       <mass
         value="0.205322871078586" />
       <inertia
         ixx="0.000181440969274869"
-        ixy="-4.39393075237283E-11"
-        ixz="3.79381726757464E-05"
-        iyy="0.000234531410256484"
-        iyz="2.10111828812442E-12"
-        izz="0.000117632047892803" />
+        ixy="3.79381726757463E-05"
+        ixz="-4.3939307525431E-11"
+        iyy="0.000117632047892803"
+        iyz="2.10111828920581E-12"
+        izz="0.000234531410256484" />
     </inertial>
     <visual>
       <origin
@@ -297,7 +285,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://rudolph_description/meshes/caster_link.STL" />
+          filename="package://rudolph_description/meshes/caster_back_link.STL" />
       </geometry>
       <material
         name="">
@@ -311,24 +299,28 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://rudolph_description/meshes/caster_link.STL" />
+          filename="package://rudolph_description/meshes/caster_back_link.STL" />
       </geometry>
     </collision>
   </link>
   <joint
-    name="caster_joint"
+    name="caster_back_joint"
     type="fixed">
     <origin
-      xyz="-0.12799 -0.57008 -0.19777"
-      rpy="0 0 1.5708" />
+      xyz="-0.22465 0 -0.35756"
+      rpy="-1.5708 0 0" />
     <parent
       link="base_link" />
     <child
-      link="caster_link" />
-    <axis
-      xyz="0 0 0" />
-    <limit
-      effort="1"
-      velocity="1" />
+      link="caster_back_link" />
   </joint>
+  
+  <joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin xyz="-0.032 0 0.068" rpy="0 0 0"/>
+  </joint>
+
+  <link name="imu_link"/>
+
 </robot>
