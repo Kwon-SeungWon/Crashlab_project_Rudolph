@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+"""
+서버에서 목적지와 방법을 받아서 pub_dest 노드로 보내는 코드
+pub: dest_val
+e.g. 113, 0
+"""
 
 
 import rospy
@@ -60,4 +65,3 @@ if __name__ == "__main__":
 
     except rospy.ROSInterruptException:
         pass
-
