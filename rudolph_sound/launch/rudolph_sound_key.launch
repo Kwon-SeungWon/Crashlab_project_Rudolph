@@ -1,4 +1,4 @@
 <launch>
   <!-- keyboard teleoperation node for hongdo_ros robot -->
-  <node pkg="rudolph_web" type="rudolph_web" name="pub_dest.py"  output="screen"/>
+  <node pkg="rudolph_sound" type="rudolph_sound" name="sound_listener.py"  output="screen"/>
 </launch>
