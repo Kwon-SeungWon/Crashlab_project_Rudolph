@@ -30,8 +30,8 @@ right_mtr_spd_pin = 13
 right_mtr_in1_pin = 6
 #right_mtr_in2_pin = 9
 
-left_enc_A_pin = 8
-left_enc_B_pin = 7
+left_enc_A_pin = 23
+left_enc_B_pin = 24
 
 right_enc_A_pin = 17
 right_enc_B_pin = 27
@@ -296,8 +296,8 @@ if __name__ == '__main__':
         left_pub_ticks.publish(left_pos)
         right_pub_ticks.publish(right_pos)
 
-        # print(left_pos)
-        # print(right_pos)
+        print(left_pos)
+        print(right_pos)
 
         # Calculate actual tick rate for left & right wheels
         delta_left_pos = left_pos - prev_left_pos

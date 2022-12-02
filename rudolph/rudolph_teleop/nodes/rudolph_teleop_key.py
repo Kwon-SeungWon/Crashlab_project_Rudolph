@@ -35,11 +35,11 @@ if os.name == 'nt':
 else:
   import tty, termios
 
-RUDOLPH_MAX_LIN_VEL = 3.50
-RUDOLPH_MAX_ANG_VEL = 4.00
+RUDOLPH_MAX_LIN_VEL = 5.50
+RUDOLPH_MAX_ANG_VEL = 6.00
 
-LIN_VEL_STEP_SIZE = 0.12
-ANG_VEL_STEP_SIZE = 0.8
+LIN_VEL_STEP_SIZE = 0.15
+ANG_VEL_STEP_SIZE = 0.3
 
 msg = """
 Control Your HONGDO Robot!
