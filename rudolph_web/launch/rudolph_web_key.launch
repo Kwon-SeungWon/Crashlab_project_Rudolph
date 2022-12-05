@@ -1,0 +1,5 @@
+<?xml version="1.0"?> 
+<launch>
+  <!-- keyboard teleoperation node for hongdo_ros robot -->
+  <node pkg="rudolph_web" name="destination_publish" type="pub_dest.py"  output="screen"/>
+</launch>

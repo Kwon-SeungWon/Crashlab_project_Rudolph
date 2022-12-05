@@ -1,0 +1,7 @@
+<launch>
+  <!-- launching state publishers -->
+  <include file="$(find rudolph_bringup)/launch/rudolph_remote.launch"/>
+
+  <!-- launching gmapping node and parameters -->
+  <include file="$(find rudolph_slam)/launch/rudolph_gmapping.launch"/>
+</launch>
