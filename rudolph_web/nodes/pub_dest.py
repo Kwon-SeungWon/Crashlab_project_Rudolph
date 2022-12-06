@@ -40,13 +40,13 @@ def get_method() -> str:
 def talker():
     if os.name != "nt":
         settings = termios.tcgetattr(sys.stdin)
-
+    count = 0
     msg = web_rasp()
 
-    msg.go = False
-    msg.mid_x = 0
-    msg.mid_y = 1
-    msg.mid_theta = 2
+    msg.state = 1
+    msg.mid_x = 0.0
+    msg.mid_y = 0.0
+    msg.mid_theta = 0.0
 
     dest = get_dest()  # e.g. 113
     method = get_method()  # e.g. 0
@@ -56,6 +56,7 @@ def talker():
     rate = rospy.Rate(10)  # 10hz
 
     while not rospy.is_shutdown():
+        if(count == 2): break
         msg.stamp = rospy.Time.now()
         msg.fin_x = float(dest)
         msg.fin_y = float(dest) + 1
@@ -63,7 +64,7 @@ def talker():
         pub.publish(msg)
 
         rate.sleep()
-
+        count += 1
     if os.name != "nt":
         termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
 
