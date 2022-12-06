@@ -30,8 +30,8 @@ right_mtr_spd_pin = 13
 right_mtr_in1_pin = 6
 #right_mtr_in2_pin = 9
 
-left_enc_A_pin = 23
-left_enc_B_pin = 24
+left_enc_A_pin = 7
+left_enc_B_pin = 8
 
 right_enc_A_pin = 17
 right_enc_B_pin = 27

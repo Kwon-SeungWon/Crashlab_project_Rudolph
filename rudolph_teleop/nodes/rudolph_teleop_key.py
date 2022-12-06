@@ -38,8 +38,8 @@ else:
 RUDOLPH_MAX_LIN_VEL = 5.50
 RUDOLPH_MAX_ANG_VEL = 6.00
 
-LIN_VEL_STEP_SIZE = 0.15
-ANG_VEL_STEP_SIZE = 0.3
+LIN_VEL_STEP_SIZE = 0.4
+ANG_VEL_STEP_SIZE = 0.1
 
 msg = """
 Control Your HONGDO Robot!
@@ -105,13 +105,18 @@ def checkAngularLimitVelocity(vel):
 
     return vel
 
+# def act_vel_callback():
+#     global target_linear_vel , target_angular_vel
+#     target_linear_vel = msg.linear.x
+#     target_angular_vel = msg.angular.z
+
 if __name__=="__main__":
     if os.name != 'nt':
         settings = termios.tcgetattr(sys.stdin)
 
     rospy.init_node('rudolph_teleop')
     pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
-
+    #sub = rospy.Subscriber('act_vel',Twist, act_vel_callback)
     status = 0
     target_linear_vel   = 0.0
     target_angular_vel  = 0.0
@@ -155,7 +160,7 @@ if __name__=="__main__":
             twist = Twist()
 
             control_linear_vel = makeSimpleProfile(control_linear_vel, target_linear_vel, (LIN_VEL_STEP_SIZE/2.0))
-            twist.linear.x = control_linear_vel; twist.linear.y = 0.0; twist.linear.z = 0.0
+            twist.linear.x = -control_linear_vel; twist.linear.y = 0.0; twist.linear.z = 0.0
 
             control_angular_vel = makeSimpleProfile(control_angular_vel, target_angular_vel, (ANG_VEL_STEP_SIZE/2.0))
             twist.angular.x = 0.0; twist.angular.y = 0.0; twist.angular.z = control_angular_vel
