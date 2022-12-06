@@ -23,4 +23,7 @@
     <node pkg="rviz" type="rviz" name="rviz" required="true"
           args="-d $(find rudolph_navigation)/rviz/rudolph_navigation.rviz"/>
   </group>
-</launch식
+
+  <!-- Set initial Pose-->
+  <node name="inital_pose" pkg="rudolph_navigation" type="set_initial_pose_cpp" output="screen"/>
+</launch>
