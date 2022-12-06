@@ -13,7 +13,7 @@ pip install mutagen
 """
 
 
-# import rospy
+import rospy
 import os
 import sys
 import playsound
@@ -31,7 +31,6 @@ CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 UPPER_DIR = os.path.dirname(CURRENT_DIR)
 MEDIA_DIR = os.path.join(UPPER_DIR, "media")
 music_file_list = []
-count = 0
 
 massage = ""
 state = 0
@@ -92,8 +91,9 @@ def play_sound(music_file):
 
 def main():
     add_music_file_path()
+    count = 0
 
-    while not rospy.is_shutdown():
+    while rospy.is_shutdown() == False:
         music_file = music_file_list[count]
         playsound.playsound(music_file)
 
@@ -102,12 +102,12 @@ def main():
         if count >= len(music_file_list) - 1:
             count = 0
 
-    return None
+        if count == 10:
+            break
 
 
 if __name__ == "__main__":
     try:
         main()
-
-    except rospy.ROSInterruptException:
+    except:
         pass
