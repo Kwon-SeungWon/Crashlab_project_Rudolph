@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """ ROS node for driving wheel motors and reading their encoders.
-
 Subscribe to topic:
     /cmd_vel
     
@@ -8,7 +7,6 @@ Publish on topics:
     /right_ticks
     /left_ticks
     /act_vel
-
 Decoder class from rotary_encoder.py example at:
 https://abyz.me.uk/rpi/pigpio/examples.html
 Hook up A and B so that values increase when moving forward.
@@ -21,20 +19,22 @@ from std_msgs.msg import Int32, Float32
 import pigpio
 from rotary_encoder import Decoder
 
-MTR_DEBUG = False  # enable/disable printing of mtr pwm values
+MTR_DEBUG = False  # e7able/disable printing of mtr pwm values
 
 # Set up gpio (Broadcom) pin aliases
-left_mtr_spd_pin = 13
-left_mtr_in1_pin = 6
+left_mtr_spd_pin = 26
+left_mtr_in1_pin = 19
+#left_mtr_in2_pin = 22
 
-right_mtr_spd_pin = 26
-right_mtr_in1_pin = 19
+right_mtr_spd_pin = 13
+right_mtr_in1_pin = 6
+#right_mtr_in2_pin = 9
 
-left_enc_A_pin = 17
-left_enc_B_pin = 27
+left_enc_A_pin = 7
+left_enc_B_pin = 8
 
-right_enc_A_pin = 23
-right_enc_B_pin = 24
+right_enc_A_pin = 17
+right_enc_B_pin = 27
 
 TRS_CURVE = rospy.get_param('ROBOT_TRS_CURVE')
 TRS_COEFF = None
@@ -74,7 +74,6 @@ def listener_callback(msg):
 def convert_cmd_vels_to_target_tick_rates(x, theta):
     """
     Convert x and theta (target velocities) to L and R target tick rates.
-
     Save target tick rates in global values.
     Set global flag to signify whether target tick rate values are new.
     Set global flag to signify whether robot is turning in place.
@@ -100,7 +99,6 @@ def convert_cmd_vels_to_target_tick_rates(x, theta):
 
 def tr_to_spd(tick_rate):
     """Convert tick_rate to spd (positive integer). Return spd.
-
     The empirical relationship between target tick rate and the spd signal
     sent to the motors has been found to roughly follow a parabolic curve
     with shallower slope at low speed. This relationship is pretty closely
@@ -108,7 +106,6 @@ def tr_to_spd(tick_rate):
     linear segments.
     The tick_rate & mtr_spd values of the segment end points are defined in
     the tuple TRS_CURVE ((trn, spn), ... (tr, sp2), (tr1, sp1), (tr0, sp0))
-
     In the present algorithm, the tick rate is examined to see which segment
     applies to it, starting with the steepest (highest value). The applicable
     slope and intercept are then used to calculate the value of spd.
@@ -136,25 +133,22 @@ def tr_to_spd(tick_rate):
     spd = 0
     for lower_limit, m, b in TRS_COEFF:
         if tick_rate > lower_limit:
-            spd = int(m * tick_rate + b)
+            spd = int(0.03*m * tick_rate + 0.02*b)
             break
     return spd
     
 def set_mtr_spd(pi, latr, ratr):
     """
     Derive motor speed and mode from L & R target tick rates. Drive motors.
-
     Target tick rates are converted to "best guess" PWM values to drive the
     motors using an empirical curve.
     
     Tick rates can be either positive or negative, wheras motor speed (spd)
     will always be a positive 8-bit int (0-255). Therefore, it is needed to
     specify a mode for the motors: FWD, REV, or OFF.
-
     At low speeds, a very small PWM signal struggles to get the motor to
     overcome an inherently unknowable amount of friction. This makes it very
     difficult for the robot to accurately follow the command velocity.
-
     To improve the robot's ability to accurately follow the command velocity,
     (especially noticeable when making slow, in-place turns) PID feedback is
     used to minimize the difference between target and actual tick rate (error).
@@ -189,25 +183,24 @@ def set_mtr_spd(pi, latr, ratr):
 
     # Set motor direction pins appropriately
     if L_mode == 'FWD':
+        pi.write(left_mtr_in1_pin, 0)
         pi.write(left_mtr_in1_pin, 1)
-        pi.write(right_mtr_in1_pin, 1)
     elif L_mode == 'REV':
-        pi.write(right_mtr_in1_pin, 1)
-        pi.write(right_mtr_in1_pin, 0)
+        pi.write(left_mtr_in1_pin, 1)
+        pi.write(left_mtr_in1_pin, 0)
     else:  # Parked
         pi.write(left_mtr_in1_pin, 0)
-        pi.write(right_mtr_in1_pin, 0)
+        pi.write(left_mtr_in1_pin, 0)
 
     if R_mode == 'FWD':
-        pi.write(left_mtr_in1_pin, 1)
         pi.write(right_mtr_in1_pin, 1)
+        pi.write(right_mtr_in1_pin, 0)
     elif R_mode == 'REV':
         pi.write(right_mtr_in1_pin, 0)
         pi.write(right_mtr_in1_pin, 1)
     else:  # Parked
-        pi.write(left_mtr_in1_pin, 0)
         pi.write(right_mtr_in1_pin, 0)
-        
+        pi.write(right_mtr_in1_pin, 0)
 
     # Find tick rate error
     L_err = abs(L_ttr) - abs(latr)
@@ -286,7 +279,7 @@ if __name__ == '__main__':
     right_decoder = Decoder(pi, right_enc_A_pin, right_enc_B_pin, right_enc_callback)
     right_pub_ticks = rospy.Publisher('right_ticks', Int32, queue_size=10)
     rospy.init_node('wheels', anonymous=True)
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(50)
 
     # Set up to publish actual velocity
     actual_vel = Twist()
@@ -302,6 +295,9 @@ if __name__ == '__main__':
         # publish cumulative tick data
         left_pub_ticks.publish(left_pos)
         right_pub_ticks.publish(right_pos)
+
+        print(left_pos)
+        print(right_pos)
 
         # Calculate actual tick rate for left & right wheels
         delta_left_pos = left_pos - prev_left_pos

@@ -1,8 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
+"""
+서버에서 목적지와 방법을 받아서 pub_dest 노드로 보내는 코드
+pub: dest_val
+e.g. 113, 0
+"""
 
 
 import rospy
-from std_msgs.msg import String
+from rudolph_msgs.msg import web_rasp
 import requests
 import json
 import os
@@ -35,19 +40,31 @@ def get_method() -> str:
 def talker():
     if os.name != "nt":
         settings = termios.tcgetattr(sys.stdin)
+    count = 0
+    msg = web_rasp()
+
+    msg.state = 1
+    msg.mid_x = 0.0
+    msg.mid_y = 0.0
+    msg.mid_theta = 0.0
 
     dest = get_dest()  # e.g. 113
     method = get_method()  # e.g. 0
 
     rospy.init_node("pub_dest")
-    pub = rospy.Publisher("dest_val", String, queue_size=10)
+    pub = rospy.Publisher("dest_val", web_rasp, queue_size=10)
     rate = rospy.Rate(10)  # 10hz
 
     while not rospy.is_shutdown():
-        message = f"{dest}, {method}"
-        pub.publish(message)
-        rate.sleep()
+        if(count == 2): break
+        msg.stamp = rospy.Time.now()
+        msg.fin_x = float(dest)
+        msg.fin_y = float(dest) + 1
+        msg.fin_theta = float(dest) + 2
+        pub.publish(msg)
 
+        rate.sleep()
+        count += 1
     if os.name != "nt":
         termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
 
@@ -60,4 +77,3 @@ if __name__ == "__main__":
 
     except rospy.ROSInterruptException:
         pass
-

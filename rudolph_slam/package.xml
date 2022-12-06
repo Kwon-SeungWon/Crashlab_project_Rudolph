@@ -55,7 +55,8 @@
   <build_export_depend>sensor_msgs</build_export_depend>
   <exec_depend>roscpp</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
-
+  <exec_depend>rudolph_bringup</exec_depend>
+  <exec_depend>gmapping</exec_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

@@ -1,0 +1,5 @@
+<?xml version="1.0"?> 
+<launch>
+  <!-- keyboard teleoperation node for hongdo_ros robot -->
+  <node pkg="rudolph_sound" name="rudolph_sound" type="play_sound.py"  output="screen"/>
+</launch>

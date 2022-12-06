@@ -1,4 +1,4 @@
 <launch>
-  <!-- keyboard teleoperation node for hongdo_ros robot -->
-  <node pkg="rudolph_teleop" type="rudolph_teleop" name="rudolph_teleop_key.py"  output="screen"/>
+	<node pkg="rudolph_teleop" type="rudolph_teleop_key.py" name="rodolph_teleop_keyboard" output="screen">
+	</node>
 </launch>

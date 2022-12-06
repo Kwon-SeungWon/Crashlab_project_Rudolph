@@ -1,0 +1,5 @@
+<?xml version="1.0"?> 
+<launch>
+  <!-- keyboard teleoperation node for hongdo_ros robot -->
+  <node pkg="rudolph_arduino" name="destination_publish" type="ros_arduino.py"  output="screen"/>
+</launch>
