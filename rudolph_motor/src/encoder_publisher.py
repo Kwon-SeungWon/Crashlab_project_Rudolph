@@ -22,12 +22,12 @@ from rotary_encoder import Decoder
 MTR_DEBUG = False  # e7able/disable printing of mtr pwm values
 
 # Set up gpio (Broadcom) pin aliases
-left_mtr_spd_pin = 26
-left_mtr_in1_pin = 19
+left_mtr_spd_pin = 13
+left_mtr_in1_pin = 6
 #left_mtr_in2_pin = 22
 
-right_mtr_spd_pin = 13
-right_mtr_in1_pin = 6
+right_mtr_spd_pin = 26
+right_mtr_in1_pin = 19
 #right_mtr_in2_pin = 9
 
 left_enc_A_pin = 8
