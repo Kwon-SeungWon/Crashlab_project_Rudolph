@@ -36,16 +36,17 @@ ser = serial.Serial("COM3", 9600)  # 'COM3' 부분에 환경에 맞는 포트 �
 URL = "http://140.238.28.123/fileUpload"  # 이미지 업로드 URL
 TIME_FORMAT = "%Y-%m-%d_%H:%M:%S"
 
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+UPPER_DIR = os.path.dirname(CURRENT_DIR)
+IMAGE_DIR = UPPER_DIR + "/images"
+
 
 def check_dir():
     """
-    이미지 파일 다루기 전, images 폴더가 있는지 확인. 없으면 images 폴더 생성
+    이미지 파일 다루기 전, 상위 폴더 안에 images 폴더가 있는지 확인. 없으면 images 폴더 생성
     """
-    cwd = os.getcwd()
-    ls = os.listdir(cwd)
-
-    if "images" not in ls:
-        os.makedirs(f"{cwd}/images")
+    if not os.path.isdir(UPPER_DIR + "/images"):
+        os.mkdir(UPPER_DIR + "/images")
 
     return None
 
@@ -62,14 +63,14 @@ def save_image():
     cam = cv2.VideoCapture(0)
     ret, frame = cam.read()
 
-    img_name = f"images/image_{now_time}.jpg"
+    img_name = IMAGE_DIR + "/" + now_time + ".jpg"
     cv2.imwrite(img_name, frame)
 
     cam.release()
     cv2.destroyAllWindows()
 
-    file_name = f"image_{now_time}.jpg"
-    file_path = f"images/{file_name}"
+    file_name = now_time + ".jpg"
+    file_path = IMAGE_DIR + "/" + now_time + ".jpg"
 
     return file_name, file_path
 
