@@ -1,20 +1,16 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """
-node = "sub_sound"
-topic = "sound_val"
-topic -> "True" or "False"
+rospy가 끝날때 까지 sound 재생하는 노드
 
-mp3 파일을 재생하는 listener 노드
 playsound 모듈을 사용
 
 따라서 사용 전에 설치해야함
-pip3 install playsound
+pip install playsound
 """
 
 
 import rospy
-from std_msgs.msg import String
 import os
 import sys
 import playsound
@@ -40,33 +36,17 @@ def play_sound(music_file):
     return None
 
 
-def callback(data):
-    global massage
-    massage = data.data
-
-    return None
-
-
-def listener():
-    rospy.init_node("sub_sound")
+def main():
 
     while not rospy.is_shutdown():
-        rospy.Subscriber("sound_val", String, callback)
-
-        if massage == "True" and state == 0:
-            play_sound(music_file)
-            state = 1
-            continue
-
-        if massage == "False":
-            break
+        playsound.playsound(music_file)
 
     return None
 
 
 if __name__ == "__main__":
     try:
-        listener()
+        main()
 
     except rospy.ROSInterruptException:
         pass
