@@ -63,20 +63,13 @@ def talker():
     rate = rospy.Rate(10)  # 10hz
 
     while not rospy.is_shutdown():
-<<<<<<< HEAD
-        if(count == 2): break
-=======
->>>>>>> 70dba82 (Test: Change topic type)
+        if count == 2:
+            break
         msg.stamp = rospy.Time.now()
         msg.fin_x = float(dest)
         msg.fin_y = float(dest) + 1
         msg.fin_theta = float(dest) + 2
         pub.publish(msg)
-<<<<<<< HEAD
-=======
-
-        rate.sleep()
->>>>>>> 70dba82 (Test: Change topic type)
 
         rate.sleep()
         count += 1
