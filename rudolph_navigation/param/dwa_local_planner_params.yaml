@@ -14,9 +14,9 @@ DWAPlannerROS:
   max_rot_vel: 4.0
   min_rot_vel: 0.8
 
-  acc_lim_x: 0.4
+  acc_lim_x: 2.5
   acc_lim_y: 0.0
-  acc_lim_theta: 0.2 
+  acc_lim_theta: 3.2 
 
 # Goal Tolerance Parametes
   xy_goal_tolerance: 0.20

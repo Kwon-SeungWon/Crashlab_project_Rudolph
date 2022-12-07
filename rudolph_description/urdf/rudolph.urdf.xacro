@@ -3,15 +3,52 @@
      Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
      For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
 <robot
-  name="rudolph_urdf">
+  name="rudolph_description">
   <link
-    name="base_footprint"/>
-
+    name="base_footprint">
+    <inertial>
+      <origin
+        xyz="0.0689100280019426 0.00900000000230574 0.0761077688742865"
+        rpy="0 0 0" />
+      <mass
+        value="0.00777136970807385" />
+      <inertia
+        ixx="3.52976794817517E-07"
+        ixy="4.01095779280605E-23"
+        ixz="1.20969262982029E-09"
+        iyy="6.78327211008114E-07"
+        iyz="7.16782676416494E-21"
+        izz="6.78004492386885E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rudolph_description/meshes/base_footprint.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rudolph_description/meshes/base_footprint.STL" />
+      </geometry>
+    </collision>
+  </link>
   <link
     name="base_link">
     <inertial>
       <origin
-        xyz="-0.198744010402315 0.000174583761450766 0.143169546471357"
+        xyz="-0.198744010402315 0.000174583761450815 0.143169546471357"
         rpy="0 0 0" />
       <mass
         value="19.3571103115098" />
@@ -20,7 +57,7 @@
         ixy="0.000103743513668881"
         ixz="3.76767258085507E-05"
         iyy="0.322483556824621"
-        iyz="-3.3367514082637E-06"
+        iyz="-3.33675140826365E-06"
         izz="0.34473391633269" />
     </inertial>
     <visual>
@@ -51,7 +88,7 @@
     name="base_joint"
     type="fixed">
     <origin
-      xyz="0.31976 0 -0.0431"
+      xyz="0 0 0.055"
       rpy="0 0 0" />
     <parent
       link="base_footprint" />
@@ -64,17 +101,17 @@
     name="wheel_left_link">
     <inertial>
       <origin
-        xyz="5.62079272015126E-10 7.35240311688923E-09 -0.00280091246570427"
+        xyz="5.65954616504882E-10 7.36872513007469E-09 -0.00280091247127531"
         rpy="0 0 0" />
       <mass
-        value="0.16892790393776" />
+        value="0.168927903786118" />
       <inertia
-        ixx="0.000180293267647714"
-        ixy="3.4968846919059E-10"
-        ixz="-5.92226218447572E-13"
-        iyy="0.0001802932498828"
-        iyz="-1.35428150724921E-11"
-        izz="0.000340883721564796" />
+        ixx="0.000180293267616765"
+        ixy="3.49702912743621E-10"
+        ixz="-5.96562390165147E-13"
+        iyy="0.000180293249897517"
+        iyz="-1.35611495762941E-11"
+        izz="0.000340883721561127" />
     </inertial>
     <visual>
       <origin
@@ -104,8 +141,8 @@
     name="wheel_left_joint"
     type="continuous">
     <origin
-      xyz="0.00024307 0.2084 0.00010011"
-      rpy="-1.5708 0 0" />
+      xyz="0.000243065284555088 0.208400000002307 0.000100106132487177"
+      rpy="-1.5707963267949 0 0" />
     <parent
       link="base_link" />
     <child
@@ -117,17 +154,17 @@
     name="wheel_right_link">
     <inertial>
       <origin
-        xyz="5.6243787405208E-10 -7.35308421095926E-09 0.00280091246576517"
+        xyz="5.66313440586441E-10 -7.36940622414473E-09 0.00280091247133624"
         rpy="0 0 0" />
       <mass
-        value="0.168927903936188" />
+        value="0.168927903784547" />
       <inertia
-        ixx="0.000180293267644942"
-        ixy="-3.49688656954827E-10"
-        ixz="5.9278420728745E-13"
-        iyy="0.000180293249883525"
-        iyz="-1.35438613193214E-11"
-        izz="0.000340883721562999" />
+        ixx="0.000180293267613993"
+        ixy="-3.49703100507898E-10"
+        ixz="5.9712037933952E-13"
+        iyy="0.000180293249898242"
+        iyz="-1.35621958235081E-11"
+        izz="0.00034088372155933" />
     </inertial>
     <visual>
       <origin
@@ -157,8 +194,8 @@
     name="wheel_right_joint"
     type="continuous">
     <origin
-      xyz="0.00024307 -0.2084 0.00010011"
-      rpy="-1.5708 0 0" />
+      xyz="0.000243065284555311 -0.208399999997693 0.000100106132487593"
+      rpy="-1.5707963267949 0 0" />
     <parent
       link="base_link" />
     <child
@@ -176,10 +213,10 @@
         value="0.205322871078586" />
       <inertia
         ixx="0.000181440969274869"
-        ixy="3.79381726757463E-05"
-        ixz="-4.39393075157974E-11"
-        iyy="0.000117632047892803"
-        iyz="2.10111827244022E-12"
+        ixy="3.79381726757464E-05"
+        ixz="-4.39393075162352E-11"
+        iyy="0.000117632047892804"
+        iyz="2.10111827256733E-12"
         izz="0.000234531410256484" />
     </inertial>
     <visual>
@@ -210,12 +247,65 @@
     name="caster_back_joint"
     type="fixed">
     <origin
-      xyz="-0.52941 0 -0.022461"
-      rpy="-1.5708 0 0" />
+      xyz="-0.529406195960553 0 -0.0224614324940508"
+      rpy="-1.5707963267949 0 0" />
     <parent
       link="base_link" />
     <child
       link="caster_back_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="camera_link">
+    <inertial>
+      <origin
+        xyz="0.00593852099290992 5.09399578095537E-07 0.00784055172380349"
+        rpy="0 0 0" />
+      <mass
+        value="0.0581895549431422" />
+      <inertia
+        ixx="2.149536557957E-05"
+        ixy="-4.25271059883761E-10"
+        ixz="-4.30001305453024E-08"
+        iyy="7.2478764849786E-06"
+        iyz="3.06968376267156E-10"
+        izz="2.484439535279E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rudolph_description/meshes/camera_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.23921568627451 0.23921568627451 0.235294117647059 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://rudolph_description/meshes/camera_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="camera_joint"
+    type="fixed">
+    <origin
+      xyz="0.0537459832126193 0.000590752056278902 0.348100106132424"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="camera_link" />
     <axis
       xyz="0 0 0" />
   </joint>
@@ -263,7 +353,7 @@
     name="scan_joint"
     type="fixed">
     <origin
-      xyz="-0.027357 0 0.3851"
+      xyz="-0.0273569347154501 0 0.385100106132424"
       rpy="0 0 0" />
     <parent
       link="base_link" />
@@ -272,60 +362,6 @@
     <axis
       xyz="0 0 0" />
   </joint>
-  <link
-    name="camera_link">
-    <inertial>
-      <origin
-        xyz="0.00593852099291015 5.09399578095537E-07 0.00784055172380355"
-        rpy="0 0 0" />
-      <mass
-        value="0.0581895549431422" />
-      <inertia
-        ixx="2.149536557957E-05"
-        ixy="-4.25271059883842E-10"
-        ixz="-4.30001305453022E-08"
-        iyy="7.2478764849786E-06"
-        iyz="3.06968376267082E-10"
-        izz="2.484439535279E-05" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://rudolph_description/meshes/camera_link.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.23921568627451 0.23921568627451 0.235294117647059 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://rudolph_description/meshes/camera_link.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="camera_joint"
-    type="fixed">
-    <origin
-      xyz="0.053746 0.00059075 0.3481"
-      rpy="0 0 0" />
-    <parent
-      link="base_link" />
-    <child
-      link="camera_link" />
-    <axis
-      xyz="0 0 0" />
-  </joint>
-
   <joint name="imu_joint" type="fixed">
     <parent link="base_link"/>
     <child link="imu_link"/>
@@ -333,8 +369,8 @@
   </joint>
 
   <link name="imu_link"/>
-
 </robot>
+
 <!-- <?xml version="1.0" encoding="utf-8"?>
 <robot name="rudolph" xmlns:xacro="http://ros.org/wiki/xacro">
   <link
