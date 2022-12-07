@@ -1,6 +1,6 @@
 #목적지와 수령방법 보내주기
 time stamp
-bool go
+int32 state
 float64 mid_x 
 float64 mid_y 
 float64 mid_theta
