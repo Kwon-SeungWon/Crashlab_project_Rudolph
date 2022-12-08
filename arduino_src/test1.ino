@@ -1,4 +1,4 @@
-//아두이노 문, 컨베이어 동작 코드. 라파와 통신
+//문, 컨베이어 동작 아두이노 코드. 라파와 통신
 
 
 #if (ARDUINO >= 100)
@@ -81,15 +81,6 @@ void loop()
 
     delay(100);
 
-    /*if(now_time - prev_time >=500)
-    {
-      prev_time=now_time;
-      
-    }*/
-
-
-
-
 
     if (state == 'a') //-> 기본 상태
     {
@@ -103,8 +94,9 @@ void loop()
       if (button_state == 0)
       {
         closedoor();
-        state = 0;
-        end_message=1;
+        state = 'a';
+        //end_message=1;
+        Serial.println('1');
       }
     }
 
@@ -115,8 +107,9 @@ void loop()
       if (button_state == 0)
       {
         closedoor();
-        state = 0;
-        end_message=1;
+        state = 'a';
+        //end_message=1;
+        Serial.println('1');
       }
     }
     if (state == 'd') // 도착지(비대면 수령) 문이 열리고 컨베이어가 작동. 이후 문이 닫히고 라파에 end_message 전송
@@ -124,8 +117,9 @@ void loop()
       opendoor();
       landbox();
       closedoor();
-      state = 0;
-      end_message=1;
+      state = 'a';
+      //end_message=1;
+      Serial.println('1');
     }
   }
 }
