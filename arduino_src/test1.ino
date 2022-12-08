@@ -40,7 +40,7 @@ void opendoor() // 문 열기
 void landbox() // 물건 내리기
 {
   conStepper.step(600);
-  delay(1000);
+  delay(10000);
   conStepper.step(0);
 }
 
