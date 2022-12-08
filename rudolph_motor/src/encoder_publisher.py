@@ -18,17 +18,18 @@ from geometry_msgs.msg import Twist
 from std_msgs.msg import Int32, Float32
 import pigpio
 from rotary_encoder import Decoder
+from rudolph_msgs.msg import motor_val
 
 MTR_DEBUG = False  # e7able/disable printing of mtr pwm values
 
 # Set up gpio (Broadcom) pin aliases
 left_mtr_spd_pin = 13
 left_mtr_in1_pin = 6
-#left_mtr_in2_pin = 22
+# left_mtr_in2_pin = 22
 
 right_mtr_spd_pin = 26
 right_mtr_in1_pin = 19
-#right_mtr_in2_pin = 9
+# right_mtr_in2_pin = 9
 
 left_enc_A_pin = 8
 left_enc_B_pin = 7
@@ -36,40 +37,43 @@ left_enc_B_pin = 7
 right_enc_A_pin = 27
 right_enc_B_pin = 17
 
-TRS_CURVE = rospy.get_param('ROBOT_TRS_CURVE')
+TRS_CURVE = rospy.get_param("ROBOT_TRS_CURVE")
 TRS_COEFF = None
 
-TICKS_PER_REV = rospy.get_param('ROBOT_TICKS_PER_REV')
-TICKS_PER_METER = rospy.get_param('ROBOT_TICKS_PER_METER')
-TRACK_WIDTH = rospy.get_param('ROBOT_TRACK_WIDTH')
-MIN_PWM_VAL = rospy.get_param('ROBOT_MIN_PWM_VAL')
-MAX_PWM_VAL = rospy.get_param('ROBOT_MAX_PWM_VAL')
-MIN_X_VEL = rospy.get_param('ROBOT_MIN_X_VEL')
+TICKS_PER_REV = rospy.get_param("ROBOT_TICKS_PER_REV")
+TICKS_PER_METER = rospy.get_param("ROBOT_TICKS_PER_METER")
+TRACK_WIDTH = rospy.get_param("ROBOT_TRACK_WIDTH")
+MIN_PWM_VAL = rospy.get_param("ROBOT_MIN_PWM_VAL")
+MAX_PWM_VAL = rospy.get_param("ROBOT_MAX_PWM_VAL")
+MIN_X_VEL = rospy.get_param("ROBOT_MIN_X_VEL")
 
 new_ttr = False  # Flag signifying target tick rate values are new
 L_ttr = 0  # Left wheel target tick rate
 R_ttr = 0  # Right wheel target tick rate
 L_spd = 0  # Left motor speed (pos 8-bit int) for PWM signal
 R_spd = 0  # Right motor speed (pos 8-bit int) for PWM signal
-L_mode = 'OFF'  # motor mode: 'FWD', 'REV', 'OFF'
-R_mode = 'OFF'
+L_mode = "OFF"  # motor mode: 'FWD', 'REV', 'OFF'
+R_mode = "OFF"
 
 # PID stuff
-KP = rospy.get_param('ROBOT_MTR_KP')
-KD = rospy.get_param('ROBOT_MTR_KD')
+KP = rospy.get_param("ROBOT_MTR_KP")
+KD = rospy.get_param("ROBOT_MTR_KD")
 L_prev_err = 0
 R_prev_err = 0
-MAX_PID_TRIM = rospy.get_param('ROBOT_MTR_MAX_PID_TRIM')
+MAX_PID_TRIM = rospy.get_param("ROBOT_MTR_MAX_PID_TRIM")
+
 
 def listener():
-    """Listen to cmd_vel topic. Send Twist msg to callback. """
+    """Listen to cmd_vel topic. Send Twist msg to callback."""
     rospy.Subscriber("/cmd_vel", Twist, listener_callback)
+
 
 def listener_callback(msg):
     """Extract linear.x and angular.z from Twist msg."""
     cmd_vel_x = msg.linear.x  # meters/sec
     cmd_vel_z = msg.angular.z  # radians/sec
     convert_cmd_vels_to_target_tick_rates(cmd_vel_x, cmd_vel_z)
+
 
 def convert_cmd_vels_to_target_tick_rates(x, theta):
     """
@@ -96,6 +100,7 @@ def convert_cmd_vels_to_target_tick_rates(x, theta):
     if R_ttr != R_rate:
         R_ttr = R_rate
         new_ttr = True
+
 
 def tr_to_spd(tick_rate):
     """Convert tick_rate to spd (positive integer). Return spd.
@@ -133,16 +138,17 @@ def tr_to_spd(tick_rate):
     spd = 0
     for lower_limit, m, b in TRS_COEFF:
         if tick_rate > lower_limit:
-            spd = int(0.03*m * tick_rate + 0.02*b)
+            spd = int(0.03 * m * tick_rate + 0.02 * b)
             break
     return spd
-    
+
+
 def set_mtr_spd(pi, latr, ratr):
     """
     Derive motor speed and mode from L & R target tick rates. Drive motors.
     Target tick rates are converted to "best guess" PWM values to drive the
     motors using an empirical curve.
-    
+
     Tick rates can be either positive or negative, wheras motor speed (spd)
     will always be a positive 8-bit int (0-255). Therefore, it is needed to
     specify a mode for the motors: FWD, REV, or OFF.
@@ -165,37 +171,37 @@ def set_mtr_spd(pi, latr, ratr):
 
         # Determine L & R modes
         if L_ttr > 0:
-            L_mode = 'FWD'
+            L_mode = "FWD"
         elif L_ttr < 0:
-            L_mode = 'REV'
+            L_mode = "REV"
         else:
-            L_mode = 'OFF'
+            L_mode = "OFF"
 
         if R_ttr > 0:
-            R_mode = 'FWD'
+            R_mode = "FWD"
         elif R_ttr < 0:
-            R_mode = 'REV'
+            R_mode = "REV"
         else:
-            R_mode = 'OFF'
+            R_mode = "OFF"
 
         # Reset flag
         new_ttr = False
 
     # Set motor direction pins appropriately
-    if L_mode == 'FWD':
+    if L_mode == "FWD":
         pi.write(left_mtr_in1_pin, 0)
         pi.write(left_mtr_in1_pin, 1)
-    elif L_mode == 'REV':
+    elif L_mode == "REV":
         pi.write(left_mtr_in1_pin, 1)
         pi.write(left_mtr_in1_pin, 0)
     else:  # Parked
         pi.write(left_mtr_in1_pin, 0)
         pi.write(left_mtr_in1_pin, 0)
 
-    if R_mode == 'FWD':
+    if R_mode == "FWD":
         pi.write(right_mtr_in1_pin, 1)
         pi.write(right_mtr_in1_pin, 0)
-    elif R_mode == 'REV':
+    elif R_mode == "REV":
         pi.write(right_mtr_in1_pin, 0)
         pi.write(right_mtr_in1_pin, 1)
     else:  # Parked
@@ -235,7 +241,9 @@ def set_mtr_spd(pi, latr, ratr):
     R_PWM_val = R_spd + R_pid_trim
 
     if L_spd and MTR_DEBUG:
-        print(f"R_spd={R_spd}\tR_pid_trim={R_pid_trim}\t\tL_spd={L_spd}\tL_pid_trim={L_pid_trim}")
+        print(
+            f"R_spd={R_spd}\tR_pid_trim={R_pid_trim}\t\tL_spd={L_spd}\tL_pid_trim={L_pid_trim}"
+        )
 
     # Limit PWM values to acceptable range
     if R_PWM_val > MAX_PWM_VAL:
@@ -252,22 +260,28 @@ def set_mtr_spd(pi, latr, ratr):
     pi.set_PWM_dutycycle(left_mtr_spd_pin, L_PWM_val)
     pi.set_PWM_dutycycle(right_mtr_spd_pin, R_PWM_val)
 
+
 left_pos = 0
+
+
 def left_enc_callback(tick):
     """Add 1 tick (either +1 or -1)"""
-    
+
     global left_pos
     left_pos += tick
 
+
 right_pos = 0
+
+
 def right_enc_callback(tick):
     """Add 1 tick (either +1 or -1)"""
-    
+
     global right_pos
     right_pos += tick
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     # Listen to /cmd_vel topic
     listener()
@@ -275,15 +289,19 @@ if __name__ == '__main__':
     # Set up to publish encoder data
     pi = pigpio.pi()
     left_decoder = Decoder(pi, left_enc_A_pin, left_enc_B_pin, left_enc_callback)
-    left_pub_ticks = rospy.Publisher('left_ticks', Int32, queue_size=10)
+    left_pub_ticks = rospy.Publisher("left_ticks", Int32, queue_size=10)
     right_decoder = Decoder(pi, right_enc_A_pin, right_enc_B_pin, right_enc_callback)
-    right_pub_ticks = rospy.Publisher('right_ticks', Int32, queue_size=10)
-    rospy.init_node('wheels', anonymous=True)
+    right_pub_ticks = rospy.Publisher("right_ticks", Int32, queue_size=10)
+    rospy.init_node("wheels", anonymous=True)
     rate = rospy.Rate(50)
+
+    # 모터 테스트 토픽
+    test_msg = motor_val()
+    motor_test_pub = rospy.Publisher("motor_test_pub", motor_val, queue_size=10)
 
     # Set up to publish actual velocity
     actual_vel = Twist()
-    robot_vel = rospy.Publisher('act_vel', Twist, queue_size=10)
+    robot_vel = rospy.Publisher("act_vel", Twist, queue_size=10)
 
     # Publish encoder data
     prev_left_pos = 0
@@ -323,6 +341,16 @@ if __name__ == '__main__':
 
         # Set motor speeds
         set_mtr_spd(pi, L_atr, R_atr)
+
+        test_msg.left_pos = left_pos
+        test_msg.right_pos = right_pos
+        test_msg.x_vel = x_vel
+        test_msg.z_vel = z_vel
+        test_msg.L_atr = L_atr
+        test_msg.R_atr = R_atr
+        test_msg.actual_vel = actual_vel
+
+        motor_test_pub.publish(test_msg)
 
         rate.sleep()
 
