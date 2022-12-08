@@ -9,19 +9,19 @@ See doc at http://wiki.ros.org/rospy/Overview/Parameter%20Server
 import rospy
 
 # Robot parameter values
-ROBOT_TICKS_PER_REV = 400.0  # 24:1 worm, 26:10 spur, 11 pole encoder magnet
-ROBOT_WHEEL_CIRCUMFERENCE = 0.213  # meters
+ROBOT_TICKS_PER_REV = 228.0  # 24:1 worm, 26:10 spur, 11 pole encoder magnet
+ROBOT_WHEEL_CIRCUMFERENCE = 0.361  # meters
 ROBOT_TICKS_PER_METER = int(ROBOT_TICKS_PER_REV / ROBOT_WHEEL_CIRCUMFERENCE)
-ROBOT_TRACK_WIDTH = 0.4  # Wheel Separation Distance (meters)
+ROBOT_TRACK_WIDTH = 0.41  # Wheel Separation Distance (meters)
 ROBOT_MIN_PWM_VAL = 0  # Minimum PWM value motors will turn reliably
 ROBOT_MAX_PWM_VAL = 220  # Maximum allowable PWM value
 ROBOT_MIN_X_VEL = 0.01  # Minimum x velocity robot can manage (m/s)
 ROBOT_MAX_X_VEL = 5.0  # Maximum x velocity robot can manage (m/s)
 ROBOT_MIN_Z_VEL = 0.01  # Minimum theta-z velocity robot can manage (rad/s)
 ROBOT_MAX_Z_VEL = 5.0  # Maximum theta-z velocity robot can manage (rad/s)
-ROBOT_MTR_KP = 2.2  # Proportional coeff
-ROBOT_MTR_KD = 1.5  # Derivative coeff
-ROBOT_MTR_MAX_PID_TRIM = 20 # Max allowable value for PID trim term
+ROBOT_MTR_KP = 0.4  # Proportional coeff  최적 0.4
+ROBOT_MTR_KD = 0.03  # Derivative coeff 최적 0.03
+ROBOT_MTR_MAX_PID_TRIM = 17 # Max allowable value for PID trim term
 
 # end points of segments of piecewise linear curve in descending order
 # where curve relates tick rate (tr) to motor speed (s)

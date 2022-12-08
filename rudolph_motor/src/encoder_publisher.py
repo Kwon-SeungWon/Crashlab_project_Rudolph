@@ -279,6 +279,8 @@ if __name__ == '__main__':
     right_decoder = Decoder(pi, right_enc_A_pin, right_enc_B_pin, right_enc_callback)
     right_pub_ticks = rospy.Publisher('right_ticks', Int32, queue_size=10)
     rospy.init_node('wheels', anonymous=True)
+    right_pub_atr = rospy.Publisher('right_atr', Float32, queue_size=10)
+    left_pub_atr = rospy.Publisher('left_atr', Float32, queue_size=10)
     rate = rospy.Rate(50)
 
     # Set up to publish actual velocity
@@ -308,13 +310,16 @@ if __name__ == '__main__':
         delta_time = curr_time - prev_time
         prev_time = rospy.Time.now().to_sec()
         L_atr = delta_left_pos / delta_time
-        R_atr = delta_right_pos / delta_time
+        R_atr = (delta_right_pos / delta_time)
 
         # Calculate robot actual velocity
         x_vel = ((R_atr + L_atr) / 2) / TICKS_PER_METER  # meters/sec
         z_vel = ((R_atr - L_atr) / TRACK_WIDTH) / TICKS_PER_METER  # rad/sec
         prev_L_atr = L_atr
         prev_R_atr = R_atr
+
+        left_pub_atr.publish(L_atr)
+        right_pub_atr.publish(R_atr)
 
         # Publish robot actual velocity
         actual_vel.linear.x = x_vel
@@ -323,6 +328,8 @@ if __name__ == '__main__':
 
         # Set motor speeds
         set_mtr_spd(pi, L_atr, R_atr)
+
+
 
         rate.sleep()
 
