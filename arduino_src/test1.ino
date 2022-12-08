@@ -95,8 +95,8 @@ void loop()
       {
         closedoor();
         state = 'a';
-        //end_message=1;
-        Serial.println('1');
+        //end_message=0;
+        Serial.println('0');
       }
     }
 
@@ -118,8 +118,8 @@ void loop()
       landbox();
       closedoor();
       state = 'a';
-      //end_message=1;
-      Serial.println('1');
+      //end_message=2;
+      Serial.println('2');
     }
   }
 }
