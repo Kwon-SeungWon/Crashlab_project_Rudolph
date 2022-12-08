@@ -10,7 +10,7 @@ cv2
 pip install serial
 pip install opencv-python
 
-Topic: /arduino_val
+Topic: /slave_val
 
 msg: rasp_arduino
 
