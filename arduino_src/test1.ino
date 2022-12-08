@@ -5,7 +5,7 @@
 #include <Arduino.h>
 #else
 #include <WProgram.h>
-#endif  //아두이노 현재 버전 자동 적용
+#endif //현재 아두이노 버전 적용
 
 #include <ros.h>
 #include <std_msgs/UInt16.h>
@@ -20,7 +20,7 @@ const int stepsPerRevolution = 200;
 
 int sw = 6;
 char state ;
-int end_message =0; //동작이 끝날 때 보내는 메세지
+int end_message =0; //끝날 때 보내는 메세지
 
 //unsigned long prev_time = 0;
 
