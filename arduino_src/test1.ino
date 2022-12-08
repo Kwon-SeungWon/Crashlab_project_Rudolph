@@ -17,7 +17,7 @@ const int stepsPerRevolution = 200;
 int sw = 6;
 int state = 0;
 
-unsigned long prev_time = 0;
+//unsigned long prev_time = 0;
 
 // Create Instance of Stepper library
 Stepper doorStepper(stepsPerRevolution, 5, 4, 3, 2);
@@ -63,17 +63,17 @@ void setup()
 void loop()
 { while (true) 
 {
-    unsigned long now_time = millis();
+    //unsigned long now_time = millis();
 
     state = Serial.read();
 
     int button_state = digitalRead(sw);
 
-    if(now_time - prev_time >=500)
+    /*if(now_time - prev_time >=500)
     {
       prev_time=now_time;
       
-    }
+    }*/
 
 
 
