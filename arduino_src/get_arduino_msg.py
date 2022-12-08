@@ -10,6 +10,8 @@ serial
 pip install serial
 
 0, 1, 2, 3
+
+메세지의 형태가 아두이노에서는 파이썬에게 Serial.println 형태로 보내고, 파이썬에서는 아두이노에게 char 형의 문자로 시리얼을 보낸다.
 """
 
 
