@@ -102,23 +102,91 @@ def post_image():
     return None
 
 
-def talker():
+def act_callback(msg):
+    """
+    master_val 토픽을 구독하는 콜백 함수
+    master_val 토픽에서 받은 메세지를 인코딩 한 후, 아두이노로 즉시 보낸다.
+
+    아두이노에게 보내는 메세지: 'a' or 'b' (char형식에 유의)
+    """
+    if msg.mid_arrive == 1:
+        var = "a"
+        var = var.encode("utf-8")
+        ser.write(var)
+
+    elif msg.fin_arrive == 1:
+        var = "b"
+        var = var.encode("utf-8")
+        ser.write(var)
+
+    return None
+
+
+def sub_arduino(decode_val, pub_msg):
+    """
+    아두이노에서 python으로 보낸 신호를 받는 함수.
+    1: 중간지점 도착
+    2: 목적지 도착 -> 이미지 업로드
+
+    pub_msg 형식: rasp_arduino
+    e.g. pub_msg.mid_fin = 1
+
+    return: pub_msg
+    """
+    if decode_val == "1":
+        pub_msg.mid_fin = 1
+
+    if decode_val == "2":
+        post_image()  # 이미지 업로드
+        pub_msg.fin_return = 1
+
+    if decode_val == "3":
+        pub_msg.fin_return = 1
+
+    return pub_msg
+
+
+def clear_pub_msg(pub_msg):
+    """
+    pub_msg의 값을 모두 0으로 초기화
+    return: pub_msg
+    """
+    pub_msg.mid_arrive = 0
+    pub_msg.mid_fin = 0
+    pub_msg.fin_arrive = 0
+    pub_msg.fin_return = 0
+
+    return pub_msg
+
+
+def main():
+    state = 0
     if os.name != "nt":
         settings = termios.tcgetattr(sys.stdin)
 
-    msg = rasp_arduino()  # 메시지 객체 생성
+    pub_msg = rasp_arduino()  # 메시지 객체 생성
+    pub_msg = clear_pub_msg(pub_msg)  # 메시지 초기화 (메세지 선언)
 
-    msg.mid_arrive = 0
-    msg.mid_exit = 0
-    msg.final_arrive = 0
-    msg.final_exit = 0
+    rospy.init_node("ros_arduino")
+    pub = rospy.Publisher("slave_val", rasp_arduino, queue_size=10)
 
-    rospy.init_node("pub_dest")
-    pub = rospy.Publisher("arduino_val", rasp_arduino, queue_size=10)
+    # act_callback을 통해 arduino로 메세지 즉시 전송
+    sub = rospy.Subscriber("master_val", rasp_arduino, act_callback)
     rate = rospy.Rate(10)  # 10hz
 
     while not rospy.is_shutdown():
-        pub.publish(msg)
+        pub_msg = clear_pub_msg(pub_msg)  # 메시지 초기화
+
+        if ser.readable():
+            """
+            아두이노에서 보낸 메세지를 받는 코드
+            serial값을 읽은 후, pub_msg에 변환해 저장.
+            """
+            val = ser.readline()  # 아두이노에서 보낸 메세지를 받는 코드
+            decode_val = val.decode()[: len(val) - 1]  # 메세지 디코딩 후, 마지막 개행문자 제거
+            pub_msg = sub_arduino(decode_val, pub_msg)  # 아두이노에서 온 메세지에 따라, pub_msg 값 변경
+
+        pub.publish(pub_msg)  # 메세지 발행
 
         rate.sleep()
 
@@ -130,7 +198,7 @@ def talker():
 
 if __name__ == "__main__":
     try:
-        talker()
+        main()
 
     except rospy.ROSInterruptException:
         pass
