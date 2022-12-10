@@ -19,8 +19,8 @@ ROBOT_MIN_X_VEL = 0.01  # Minimum x velocity robot can manage (m/s)
 ROBOT_MAX_X_VEL = 5.0  # Maximum x velocity robot can manage (m/s)
 ROBOT_MIN_Z_VEL = 0.01  # Minimum theta-z velocity robot can manage (rad/s)
 ROBOT_MAX_Z_VEL = 5.0  # Maximum theta-z velocity robot can manage (rad/s)
-ROBOT_MTR_KP = 0.4  # Proportional coeff  최적 0.4
-ROBOT_MTR_KD = 0.03  # Derivative coeff 최적 0.03
+ROBOT_MTR_KP = 0.1  # Proportional coeff  최적 0.1
+ROBOT_MTR_KD = 0.02  # Derivative coeff 최적 0.02
 ROBOT_MTR_MAX_PID_TRIM = 17 # Max allowable value for PID trim term
 
 # end points of segments of piecewise linear curve in descending order
