@@ -32,22 +32,19 @@ Stepper conStepper(stepsPerRevolution, 10, 9, 8, 7);
 void opendoor() // 문 열기
 {
   doorStepper.step(200);
-  delay(1000); //1초
   doorStepper.step(0);
 
 }
 
 void landbox() // 물건 내리기
 {
-  conStepper.step(600);
-  delay(10000);
+  conStepper.step(1000);
   conStepper.step(0);
 }
 
 void closedoor() // 문 닫기
 {
   doorStepper.step(-200);
-  delay(1000);
   doorStepper.step(0);
 }
 
@@ -60,7 +57,7 @@ void setup()
 
   // set the speed at 20 rpm:
   doorStepper.setSpeed(20);
-  conStepper.setSpeed(20);
+  conStepper.setSpeed(60);
 
 
   pinMode(sw, INPUT_PULLUP); //버튼 핀 풀업
