@@ -36,6 +36,11 @@
         <param name="self_diagnose" value="false"/>
     </node>
     
+    <!--Launch Sound node-->
+    <!-- <node pkg="rudolph_sound" name="rudolph_sound" type="play_sound.py"  output="screen"/> -->
+    
+    
+    
     <!-- <include file="$(find iahrs_driver)/launch/iahrs_driver.launch" /> -->
 
     <!-- <arg name="serial_port" default="/dev/ttyUSB_IMU" />
