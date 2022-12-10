@@ -28,7 +28,8 @@ void SendGoal::poseMsgCallBack(const rudolph_msgs::web_rasp::ConstPtr &msg)
 
   dest_x = msg->fin_x, dest_y = msg->fin_y;
   dest_theta = msg->fin_theta;
-  chk_point += 1;
+
+  start = msg->state;
   std::cout << "dest_val 작동완료!!\n";
 }
 

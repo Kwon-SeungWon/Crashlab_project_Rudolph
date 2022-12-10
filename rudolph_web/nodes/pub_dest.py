@@ -101,12 +101,12 @@ def talker():
 
     rospy.init_node("pub_dest")
     pub = rospy.Publisher("dest_val", web_rasp, queue_size=10)
-    rate = rospy.Rate(10)  # 10hz
+    rate = rospy.Rate(5)  # 10hz
 
     while not rospy.is_shutdown():
         if count == 2:
             break
-
+        
         msg = set_msg(msg, dest, method)
         pub.publish(msg)
 
