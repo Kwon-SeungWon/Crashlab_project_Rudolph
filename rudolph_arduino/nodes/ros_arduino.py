@@ -32,7 +32,7 @@ else:
     import tty, termios
 
 
-ser = serial.Serial("COM3", 9600)  # 'COM3' 부분에 환경에 맞는 포트 입력
+ser = serial.Serial("ttyARDUINO", 9600)  # 'ttyARDUINO' 부분에 환경에 맞는 포트 입력
 URL = "http://140.238.28.123/fileUpload"  # 이미지 업로드 URL
 TIME_FORMAT = "%Y-%m-%d_%H:%M:%S"
 
