@@ -43,8 +43,7 @@ def convert_dest_to_coord(dest: str):
     return: [x: float, y: float, theta: float]
     """
     convert_dict = {
-        "112": [0.0, 0.0, 0.0],
-        "113": [0.0, 0.0, 0.0],
+        "113": [42.0, 11.2, 0.097],
         "114": [0.0, 0.0, 0.0],
         "115": [0.0, 0.0, 0.0],
         "116": [0.0, 0.0, 0.0],
@@ -93,9 +92,9 @@ def talker():
     msg = web_rasp()
 
     msg.state = 1
-    msg.mid_x = 0.0
-    msg.mid_y = 0.0
-    msg.mid_theta = 0.0
+    msg.mid_x = 22.443568993207002  # 112호 x좌표
+    msg.mid_y = 11.193750460054984  # 112호 y좌표
+    msg.mid_theta = 0.09728127496148936  # 112호 theta값
 
     dest = get_dest()  # e.g. 113
     method = get_method()  # e.g. 0
@@ -107,10 +106,8 @@ def talker():
     while not rospy.is_shutdown():
         if count == 2:
             break
-        msg.stamp = rospy.Time.now()
-        msg.fin_x = float(dest)
-        msg.fin_y = float(dest) + 1
-        msg.fin_theta = float(dest) + 2
+
+        msg = set_msg(msg, dest, method)
         pub.publish(msg)
 
         rate.sleep()
