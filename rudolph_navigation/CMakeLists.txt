@@ -12,6 +12,8 @@ find_package(catkin REQUIRED COMPONENTS
   move_base_msgs
   roscpp
   geometry_msgs
+  message_generation
+  rudolph_msgs
 )
 
 ## System dependencies are found with CMake's conventions

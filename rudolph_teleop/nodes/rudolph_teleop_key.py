@@ -35,11 +35,11 @@ if os.name == 'nt':
 else:
   import tty, termios
 
-RUDOLPH_MAX_LIN_VEL = 3.50
-RUDOLPH_MAX_ANG_VEL = 4.00
+RUDOLPH_MAX_LIN_VEL = 5.50
+RUDOLPH_MAX_ANG_VEL = 6.00
 
-LIN_VEL_STEP_SIZE = 0.12
-ANG_VEL_STEP_SIZE = 0.8
+LIN_VEL_STEP_SIZE = 0.3
+ANG_VEL_STEP_SIZE = 0.2
 
 msg = """
 Control Your HONGDO Robot!
@@ -105,13 +105,18 @@ def checkAngularLimitVelocity(vel):
 
     return vel
 
+# def act_vel_callback():
+#     global target_linear_vel , target_angular_vel
+#     target_linear_vel = msg.linear.x
+#     target_angular_vel = msg.angular.z
+
 if __name__=="__main__":
     if os.name != 'nt':
         settings = termios.tcgetattr(sys.stdin)
 
     rospy.init_node('rudolph_teleop')
     pub = rospy.Publisher('cmd_vel', Twist, queue_size=10)
-
+    #sub = rospy.Subscriber('act_vel',Twist, act_vel_callback)
     status = 0
     target_linear_vel   = 0.0
     target_angular_vel  = 0.0

@@ -68,7 +68,7 @@ prev_right_ticks = 0
 
 last_time = rospy.Time.now()
 
-odom_pub = rospy.Publisher("odom", Odometry, queue_size=50)
+odom_pub = rospy.Publisher("odom", Odometry, queue_size=50) #queue size 10이 나을지도 모른다고함
 odom_broadcaster = tf2_ros.TransformBroadcaster()
 
 # Start listening
@@ -146,6 +146,7 @@ while not rospy.is_shutdown():
 
     # set the velocity w/r/t the child_frame
     odom.child_frame_id = "base_link"
+    #odom.child_frame_id = "base_footprint"
     # odom.twist.twist = Twist(Vector3(vx, 0, 0), Vector3(0, 0, vth))
     odom.twist.twist.linear.x = vx
     odom.twist.twist.linear.y = 0.0

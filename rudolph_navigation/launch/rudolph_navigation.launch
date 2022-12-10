@@ -1,6 +1,9 @@
 <launch>
   <!-- Arguments -->
-  <arg name="map_file" default="$(find rudolph_navigation)/maps/map.yaml"/>
+  
+  <!-- <arg name="map_file" default="$(find rudolph_navigation)/maps/map.yaml"/> -->
+  <arg name="map_file" default="$(find rudolph_navigation)/maps/map2.yaml"/>
+
   <arg name="open_rviz" default="true"/>
   <arg name="move_forward_only" default="false"/>
 
@@ -23,4 +26,7 @@
     <node pkg="rviz" type="rviz" name="rviz" required="true"
           args="-d $(find rudolph_navigation)/rviz/rudolph_navigation.rviz"/>
   </group>
-</launch식
+
+  <!-- Set initial Pose-->
+  <node name="inital_pose" pkg="rudolph_navigation" type="rudolph_set_initial_pose_cpp" output="screen"/>
+</launch>
