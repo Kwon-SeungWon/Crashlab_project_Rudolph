@@ -37,6 +37,55 @@ def get_method() -> str:
     return result_dict["method"]  # str
 
 
+def convert_dest_to_coord(dest: str):
+    """
+    dest를 받아서 좌표로 변환하는 함수
+    return: [x: float, y: float, theta: float]
+    """
+    convert_dict = {
+        "112": [0.0, 0.0, 0.0],
+        "113": [0.0, 0.0, 0.0],
+        "114": [0.0, 0.0, 0.0],
+        "115": [0.0, 0.0, 0.0],
+        "116": [0.0, 0.0, 0.0],
+        "117": [0.0, 0.0, 0.0],
+        "118": [0.0, 0.0, 0.0],
+        "119": [0.0, 0.0, 0.0],
+        "120": [0.0, 0.0, 0.0],
+        "121": [0.0, 0.0, 0.0],
+        "122": [0.0, 0.0, 0.0],
+        "123": [0.0, 0.0, 0.0],
+        "124": [0.0, 0.0, 0.0],
+        "125": [0.0, 0.0, 0.0],
+        "126": [0.0, 0.0, 0.0],
+        "127": [0.0, 0.0, 0.0],
+        "128": [0.0, 0.0, 0.0],
+        "129": [0.0, 0.0, 0.0],
+        "130": [0.0, 0.0, 0.0],
+        "131": [0.0, 0.0, 0.0],
+    }
+
+    return convert_dict[dest]
+
+
+def set_msg(msg, dest, method):
+    """
+    dest를 좌표로 변환해서 msg에 넣어주는 함수
+    x, y, theta는 float
+
+    return: msg
+    """
+    coordinate = convert_dest_to_coord(dest)
+
+    msg.stamp = rospy.Time.now()
+
+    msg.fin_x = coordinate[0]
+    msg.fin_y = coordinate[1]
+    msg.fin_theta = coordinate[2]
+
+    return msg
+
+
 def talker():
     if os.name != "nt":
         settings = termios.tcgetattr(sys.stdin)
@@ -56,7 +105,8 @@ def talker():
     rate = rospy.Rate(10)  # 10hz
 
     while not rospy.is_shutdown():
-        if(count == 2): break
+        if count == 2:
+            break
         msg.stamp = rospy.Time.now()
         msg.fin_x = float(dest)
         msg.fin_y = float(dest) + 1
