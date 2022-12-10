@@ -21,14 +21,14 @@ ROBOT_MIN_Z_VEL = 0.01  # Minimum theta-z velocity robot can manage (rad/s)
 ROBOT_MAX_Z_VEL = 5.0  # Maximum theta-z velocity robot can manage (rad/s)
 ROBOT_MTR_KP = 0.1  # Proportional coeff  최적 0.1
 ROBOT_MTR_KD = 0.02  # Derivative coeff 최적 0.02
-ROBOT_MTR_MAX_PID_TRIM = 17 # Max allowable value for PID trim term
+ROBOT_MTR_MAX_PID_TRIM = 20 # Max allowable value for PID trim term
 
 # end points of segments of piecewise linear curve in descending order
 # where curve relates tick rate (tr) to motor speed (s)
-ROBOT_TRS_CURVE = ((892, 240),
-                   (578, 140),
-                   (360, 100),
-                   (142, 80))
+ROBOT_TRS_CURVE = ((3892, 240), #892 240
+                   (578, 140), #578 140
+                   (360, 100), #360 100
+                   (142, 80))  #142 80
 
 param_dict = {
     'ROBOT_TICKS_PER_REV': ROBOT_TICKS_PER_REV,
