@@ -78,32 +78,20 @@ def get_mp3_duration(music_file):
     return duration
 
 
-def play_sound(music_file):
-    """
-    mp3 파일을 재생하는 함수
-    """
-    duration = get_mp3_duration(music_file)
-    playsound.playsound(music_file)
-    time.sleep(duration + 1)
-
-    return None
-
-
 def main():
     add_music_file_path()
     count = 0
 
     while rospy.is_shutdown() == False:
         music_file = music_file_list[count]
-        playsound.playsound(music_file)
+        duration = get_mp3_duration(music_file)
 
+        playsound.playsound(music_file, False)
+        time.sleep(duration + 2)
         count += 1
 
-        if count >= len(music_file_list) - 1:
+        if count == len(music_file_list):
             count = 0
-
-        if count == 10:
-            break
 
 
 if __name__ == "__main__":
