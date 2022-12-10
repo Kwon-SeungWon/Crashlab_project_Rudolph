@@ -15,7 +15,7 @@
 
 
 
-// Number of steps per output rotation
+// Number of steps per output rotation 360도 회전에 필요한 스탭 수
 const int stepsPerRevolution = 200;
 
 int sw = 6;
@@ -24,27 +24,30 @@ int end_message =0; //끝날 때 보내는 메세지
 
 //unsigned long prev_time = 0;
 
-// Create Instance of Stepper library
-Stepper doorStepper(stepsPerRevolution, 5, 4, 3, 2);
-Stepper conStepper(stepsPerRevolution, 10, 9, 8, 7);
+// Create Instance of Stepper library !!!!두 스탭의 핀 번호가 서로 뒤바뀌었는 지 확인 필요!!!!
+Stepper doorStepper(stepsPerRevolution, 11, 10, 9, 8);
+Stepper conStepper(stepsPerRevolution, 7, 6, 5, 4);
 
 
-void opendoor() // 문 열기
+void opendoor() // 문 열기 
 {
-  doorStepper.step(200);
+  doorStepper.step(50);
+  delay(1200);
   doorStepper.step(0);
 
 }
 
 void landbox() // 물건 내리기
 {
-  conStepper.step(1000);
+  conStepper.step(1000); 
+  delay(10000);
   conStepper.step(0);
 }
 
 void closedoor() // 문 닫기
 {
-  doorStepper.step(-200);
+  doorStepper.step(-50);
+  delay(1200);
   doorStepper.step(0);
 }
 
@@ -56,7 +59,7 @@ void setup()
 
 
   // set the speed at 20 rpm:
-  doorStepper.setSpeed(20);
+  doorStepper.setSpeed(60);
   conStepper.setSpeed(60);
 
 
