@@ -25,10 +25,10 @@ ROBOT_MTR_MAX_PID_TRIM = 20 # Max allowable value for PID trim term
 
 # end points of segments of piecewise linear curve in descending order
 # where curve relates tick rate (tr) to motor speed (s)
-ROBOT_TRS_CURVE = ((8.92, 4), #892 240
-                   (5.78, 2), #578 140
-                   (3.60, 1), #360 100
-                   (1.42, 0.5))  #142 80
+ROBOT_TRS_CURVE = ((8.92, 0.5), #892 240  ->8.92,4  -> 8.92,0.5
+                   (5.78, 0.25), #578 140  ->5.78,2 ->5.78,0.25
+                   (3.60, 0.128), #360 100  ->3.60,1->3.60,0.128
+                   (1.42, 0.083))  #142 80->1.42,0.5->1.42,0.083
 
 param_dict = {
     'ROBOT_TICKS_PER_REV': ROBOT_TICKS_PER_REV,
