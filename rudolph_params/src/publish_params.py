@@ -10,9 +10,9 @@ import rospy
 
 # Robot parameter values
 ROBOT_TICKS_PER_REV = 228.0  # 24:1 worm, 26:10 spur, 11 pole encoder magnet
-ROBOT_WHEEL_CIRCUMFERENCE = 0.213  # meters
+ROBOT_WHEEL_CIRCUMFERENCE = 0.361  # meters
 ROBOT_TICKS_PER_METER = int(ROBOT_TICKS_PER_REV / ROBOT_WHEEL_CIRCUMFERENCE)
-ROBOT_TRACK_WIDTH = 0.4  # Wheel Separation Distance (meters)
+ROBOT_TRACK_WIDTH = 0.41  # Wheel Separation Distance (meters)
 ROBOT_MIN_PWM_VAL = 0  # Minimum PWM value motors will turn reliably
 ROBOT_MAX_PWM_VAL = 220  # Maximum allowable PWM value
 ROBOT_MIN_X_VEL = 0.01  # Minimum x velocity robot can manage (m/s)
