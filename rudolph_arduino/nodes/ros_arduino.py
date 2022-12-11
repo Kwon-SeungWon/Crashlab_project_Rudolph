@@ -190,9 +190,27 @@ def main():
             """
             val = ser.readline()  # 아두이노에서 보낸 메세지를 받는 코드
             decode_val = val.decode()[: len(val) - 1]  # 메세지 디코딩 후, 마지막 개행문자 제거
+            pub_msg = clear_pub_msg(pub_msg)  # 메세지 초기화
 
-        pub_msg = sub_arduino(decode_val, pub_msg, pub)
-        # pub.publish(pub_msg)  # 메세지 발행
+            if decode_val == "1":
+                pub_msg.mid_fin = 1
+                for _ in range(10):
+                    pub.publish(pub_msg)
+                    rate.sleep()
+
+            if decode_val == "2":
+                pub_msg.fin_return = 1
+                for _ in range(10):
+                    pub.publish(pub_msg)
+                    rate.sleep()
+
+            if decode_val == "3":
+                pub_msg.fin_return = 1
+                for _ in range(10):
+                    pub.publish(pub_msg)
+                    rate.sleep()
+
+        pub.publish(pub_msg)  # 메세지 발행
 
         rate.sleep()
 
