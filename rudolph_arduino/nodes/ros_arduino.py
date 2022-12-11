@@ -125,7 +125,7 @@ def act_callback(msg):
     return None
 
 
-def sub_arduino(decode_val, pub_msg):
+def sub_arduino(decode_val, pub_msg, pub):
     """
     아두이노에서 python으로 보낸 신호를 받는 함수.
     1: 중간지점 도착
@@ -138,15 +138,19 @@ def sub_arduino(decode_val, pub_msg):
     """
     if decode_val == "1":
         pub_msg.mid_fin = 1
+        for _ in range(10):
+            pub.publish(pub_msg)
 
     if decode_val == "2":
         post_image()  # 이미지 업로드
         pub_msg.fin_return = 1
+        for _ in range(10):
+            pub.publish(pub_msg)
 
     if decode_val == "3":
         pub_msg.fin_return = 1
-
-    return pub_msg
+        for _ in range(10):
+            pub.publish(pub_msg)
 
 
 def clear_pub_msg(pub_msg):
@@ -178,7 +182,6 @@ def main():
     rate = rospy.Rate(10)  # 10hz
 
     while not rospy.is_shutdown():
-        pub_msg = clear_pub_msg(pub_msg)  # 메시지 초기화
 
         if ser.readable():
             """
@@ -187,9 +190,9 @@ def main():
             """
             val = ser.readline()  # 아두이노에서 보낸 메세지를 받는 코드
             decode_val = val.decode()[: len(val) - 1]  # 메세지 디코딩 후, 마지막 개행문자 제거
-            pub_msg = sub_arduino(decode_val, pub_msg)  # 아두이노에서 온 메세지에 따라, pub_msg 값 변경
 
-        pub.publish(pub_msg)  # 메세지 발행
+        pub_msg = sub_arduino(decode_val, pub_msg, pub)
+        # pub.publish(pub_msg)  # 메세지 발행
 
         rate.sleep()
 
