@@ -110,15 +110,15 @@ def act_callback(msg):
     master_val 토픽을 구독하는 콜백 함수
     master_val 토픽에서 받은 메세지를 인코딩 한 후, 아두이노로 즉시 보낸다.
 
-    아두이노에게 보내는 메세지: 'a' or 'b' (char형식에 유의)
+    아두이노에게 보내는 메세지: 'b' or 'c' (char형식에 유의)
     """
     if msg.mid_arrive == 1:
-        var = "a"
+        var = "b"
         var = var.encode("utf-8")
         ser.write(var)
 
     elif msg.fin_arrive == 1:
-        var = "b"
+        var = "c"
         var = var.encode("utf-8")
         ser.write(var)
 
