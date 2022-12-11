@@ -43,6 +43,20 @@ UPPER_DIR = os.path.dirname(CURRENT_DIR)
 IMAGE_DIR = UPPER_DIR + "/images"
 
 
+def sub_arduino(decode_val):
+    """
+    아두이노에서 python으로 보낸 신호를 받는 함수.
+    1: 중간지점 도착
+    2: 목적지 도착 -> 이미지 업로드
+
+    pub_msg 형식: rasp_arduino
+    e.g. pub_msg.mid_fin = 1
+
+    return: pub_msg
+    """
+    print("decode_val: ", decode_val)
+
+
 def main():
     state = 0
     if os.name != "nt":
@@ -51,9 +65,13 @@ def main():
     while True:
 
         if ser.readable():
-            var = input("input b or c")  # input b, c
-            var = var.encode("utf-8")
-            ser.write(var)
+            """
+            아두이노에서 보낸 메세지를 받는 코드
+            serial값을 읽은 후, pub_msg에 변환해 저장.
+            """
+            val = ser.readline()  # 아두이노에서 보낸 메세지를 받는 코드
+            decode_val = val.decode()[: len(val) - 1]  # 메세지 디코딩 후, 마지막 개행문자 제거
+            sub_arduino(decode_val)  # 아두이노에서 온 메세지에 따라, pub_msg 값 변경
 
     return None
 
