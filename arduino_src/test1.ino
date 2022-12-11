@@ -100,41 +100,59 @@ void loop()
     }
 
 
-    if (state == 'b' && main_process == 0)  // 경유지 동작 -> 문이 열리고 버튼을 누르면 문이 닫힘. 이후 라파에 end_message 전송
+    if (state == 'b')  // 경유지 동작 -> 문이 열리고 버튼을 누르면 문이 닫힘. 이후 라파에 end_message 전송
     {
-      opendoor();
-      if (button_state == 0)
+      if (main_process == 0)
       {
+        opendoor();
+      }
+      else if (main_process == 1)
+      {
+        if (button_state == 0)
+        {
         closedoor();
         state = 'a';
         //end_message=0;
         Serial.println('0');
+        }
       }
       main_process = 1;
     }
 
-    if (state == 'c'&& main_process==1) // 도착지(직접 수령) 동작 -> 문이 열리고 컨베이어가 작동. 버튼이 눌리면 문이 닫히고 라파에  end_message 전송
+    if (state == 'c') // 도착지(직접 수령) 동작 -> 문이 열리고 컨베이어가 작동. 버튼이 눌리면 문이 닫히고 라파에  end_message 전송
     {
+      if (main_process == 1)
+      {
       opendoor();
       landbox();
-      if (button_state == 0)
+      }
+      if (main_process == 2)
       {
+        if (button_state == 0)
+        {
         closedoor();
         state = 'a';
         //end_message=1;
         Serial.println('1');
+        }
       }
       main_process = 2;
     }
-    if (state == 'd'&&main_process==1) // 도착지(비대면 수령) 문이 열리고 컨베이어가 작동. 이후 문이 닫히고 라파에 end_message 전송
+    if (state == 'd') // 도착지(비대면 수령) 문이 열리고 컨베이어가 작동. 이후 문이 닫히고 라파에 end_message 전송
     {
+      if (main_process == 1)
+      {
       opendoor();
       landbox();
       closedoor();
+      }
+      if (main_process == 2)
+      {
       state = 'a';
       //end_message=2;
       Serial.println('2');
-      main_process=2;
+      }
+      main_process= 2;
     }
   }
 }
