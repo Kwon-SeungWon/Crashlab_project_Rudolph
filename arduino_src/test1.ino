@@ -12,6 +12,13 @@
 
 #include <Stepper.h> 
 
+#include <SoftwareSerial.h>
+
+#define PIN_TX 2
+#define PIN_RX 3
+
+SoftwareSerial Serial2(PIN_TX, PIN_RX);
+
 
 
 
@@ -55,6 +62,7 @@ void setup()
 {
 
   Serial.begin(9600);
+  Serial2.begin(9600);
   delay(20); //통신 간격
 
 
