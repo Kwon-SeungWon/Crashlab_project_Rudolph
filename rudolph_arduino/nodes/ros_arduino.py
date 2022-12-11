@@ -32,8 +32,8 @@ if os.name == "nt":
 else:
     import tty, termios
 
-
-ser = serial.Serial("COM3", 9600)  # 'COM3' 부분에 환경에 맞는 포트 입력
+# Rx Tx 포트에서는 '/dev/ttyACM0'을 사용
+ser = serial.Serial("/dev/ttyACM0", 9600)
 URL = "http://140.238.28.123/fileUpload"  # 이미지 업로드 URL
 TIME_FORMAT = "%Y-%m-%d_%H:%M:%S"
 
@@ -110,15 +110,15 @@ def act_callback(msg):
     master_val 토픽을 구독하는 콜백 함수
     master_val 토픽에서 받은 메세지를 인코딩 한 후, 아두이노로 즉시 보낸다.
 
-    아두이노에게 보내는 메세지: 'a' or 'b' (char형식에 유의)
+    아두이노에게 보내는 메세지: 'b' or 'c' (char형식에 유의)
     """
     if msg.mid_arrive == 1:
-        var = "a"
+        var = "b"
         var = var.encode("utf-8")
         ser.write(var)
 
     elif msg.fin_arrive == 1:
-        var = "b"
+        var = "c"
         var = var.encode("utf-8")
         ser.write(var)
 
