@@ -29,4 +29,7 @@
 
   <!-- Set initial Pose-->
   <node name="inital_pose" pkg="rudolph_navigation" type="rudolph_set_initial_pose_cpp" output="screen"/>
+
+  <!-- Send Goal-->
+  <node name="GOGO" pkg="rudolph_navigation" type="rudolph_send_goal_cpp" output="screen"/> 
 </launch>
