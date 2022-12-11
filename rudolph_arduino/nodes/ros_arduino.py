@@ -136,18 +136,18 @@ def sub_arduino(decode_val, pub_msg, pub):
 
     return: pub_msg
     """
-    if decode_val == "1":
+    if decode_val == "0":
         pub_msg.mid_fin = 1
         for _ in range(10):
             pub.publish(pub_msg)
 
-    if decode_val == "2":
+    if decode_val == "1":
         post_image()  # 이미지 업로드
         pub_msg.fin_return = 1
         for _ in range(10):
             pub.publish(pub_msg)
 
-    if decode_val == "3":
+    if decode_val == "2":
         pub_msg.fin_return = 1
         for _ in range(10):
             pub.publish(pub_msg)
