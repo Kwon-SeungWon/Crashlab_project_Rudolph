@@ -17,7 +17,7 @@
 #define PIN_TX 2
 #define PIN_RX 3
 
-SoftwareSerial Serial2(PIN_TX, PIN_RX);
+SoftwareSerial SerialROS(PIN_TX, PIN_RX);
 
 
 
@@ -38,31 +38,34 @@ Stepper conStepper(stepsPerRevolution, 7, 6, 5, 4);
 
 void opendoor() // 문 열기 
 {
-  doorStepper.step(50);
-  delay(1200);
+  doorStepper.step(100);
+  delay(400);
   doorStepper.step(0);
+  delay(100);
 
 }
 
 void landbox() // 물건 내리기
 {
   conStepper.step(1000); 
-  delay(10000);
+  delay(1000);
   conStepper.step(0);
+  delay(100);
 }
 
 void closedoor() // 문 닫기
 {
-  doorStepper.step(-50);
-  delay(1200);
+  doorStepper.step(-100);
+  delay(400);
   doorStepper.step(0);
+  delay(100);
 }
 
 void setup()
 {
 
-  Serial.begin(9600);
-  Serial2.begin(9600);
+  //Serial.begin(9600);
+  SerialROS.begin(9600);
   delay(20); //통신 간격
 
 
@@ -81,7 +84,7 @@ void loop()
 {
     //unsigned long now_time = millis();
 
-    state = Serial.read(); //라파 시리얼 받기
+    state = SerialROS.read(); //라파 시리얼 받기
     //Serial.write(end_message);
     end_message=0;
 
@@ -104,7 +107,7 @@ void loop()
         closedoor();
         state = 'a';
         //end_message=0;
-        Serial.println('0');
+        SerialROS.println('0');
       }
     }
 
@@ -117,7 +120,7 @@ void loop()
         closedoor();
         state = 'a';
         //end_message=1;
-        Serial.println('1');
+        SerialROS.println('1');
       }
     }
     if (state == 'd') // 도착지(비대면 수령) 문이 열리고 컨베이어가 작동. 이후 문이 닫히고 라파에 end_message 전송
@@ -127,7 +130,7 @@ void loop()
       closedoor();
       state = 'a';
       //end_message=2;
-      Serial.println('2');
+      SerialROS.println('2');
     }
   }
 }
