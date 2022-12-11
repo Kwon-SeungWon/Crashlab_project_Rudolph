@@ -22,10 +22,10 @@
   </include>
   
   <!-- rviz -->
-  <group if="$(arg open_rviz)"> 
+  <!-- <group if="$(arg open_rviz)"> 
     <node pkg="rviz" type="rviz" name="rviz" required="true"
           args="-d $(find rudolph_navigation)/rviz/rudolph_navigation.rviz"/>
-  </group>
+  </group> -->
 
   <!-- Set initial Pose-->
   <node name="inital_pose" pkg="rudolph_navigation" type="rudolph_set_initial_pose_cpp" output="screen"/>

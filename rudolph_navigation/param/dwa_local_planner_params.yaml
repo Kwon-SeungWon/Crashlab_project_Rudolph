@@ -18,9 +18,9 @@ DWAPlannerROS:
   acc_lim_y: 0.0
   acc_lim_theta: 3.0 
 
-# Goal Tolerance Parametes
-  xy_goal_tolerance: 0.20
-  yaw_goal_tolerance: 0.17
+# Goal Tolerance Parameters
+  xy_goal_tolerance: 0.30
+  yaw_goal_tolerance: 0.30 # 로봇 세타값의 허용 범위값 , 높일 수록 유해짐 
   latch_xy_goal_tolerance: false
 
 # Forward Simulation Parameters

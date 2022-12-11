@@ -14,7 +14,7 @@ TrajectoryPlannerROS:
 
 # Goal Tolerance Parameters
   xy_goal_tolerance: 0.30
-  yaw_goal_tolerance: 0.20
+  yaw_goal_tolerance: 0.30    # 로봇 세타값의 허용 범위값 , 높일 수록 유해짐 
 
 # Differential-drive robot configuration
   holonomic_robot: false
