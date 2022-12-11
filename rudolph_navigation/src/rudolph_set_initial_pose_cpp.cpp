@@ -17,6 +17,8 @@ int main(int argc, char** argv){
 
     double x,y,theta;
 
+    double X, Y, Z;
+
     // Input Robot's real Initial pose
     std::cout << "Please input your robot's x,y,theta\n";
     std::cin >> x >> y >> theta;
@@ -26,7 +28,7 @@ int main(int argc, char** argv){
     pose.pose.pose.position.y = y;
     pose.pose.pose.position.z = 0.0;
 
-    pose.pose.pose.orientation.z = theta;
+    pose.pose.pose.orientation.z = sin(theta*0.5);
 
     // set theta
     tf::Quaternion quat;
