@@ -14,10 +14,17 @@
 
 #include <SoftwareSerial.h>
 
-//#define PIN_TX 2
-//#define PIN_RX 3
+#include <Adafruit_NeoPixel.h>
+#ifdef __AVR__
+#include <avr/power.h> // Required for 16 MHz Adafruit Trinket
+#endif
 
-//SoftwareSerial SerialROS(PIN_TX, PIN_RX);
+#define ledPIN 2
+#define NUMPIXELS 16 //아두이노에 부착된 neopixel 갯수
+
+#include <time.h>
+
+Adafruit_NeoPixel pixels(NUMPIXELS, ledPIN, NEO_GRB + NEO_KHZ800);
 
 
 
@@ -30,11 +37,19 @@ char state ;
 int end_message =0; //끝날 때 보내는 메세지
 int main_process = 0;
 
+long past =millis();
+long now;
+long time_interval;
+ 
 //unsigned long prev_time = 0;
 
 // Create Instance of Stepper library !!!!두 스탭의 핀 번호가 서로 뒤바뀌었는 지 확인 필요!!!!
 Stepper doorStepper(stepsPerRevolution, 11, 10, 9, 8);
 Stepper conStepper(stepsPerRevolution, 7, 6, 5, 4);
+
+
+
+
 
 
 void opendoor() // 문 열기 
@@ -70,7 +85,7 @@ void setup()
   delay(20); //통신 간격
 
 
-  // set the speed at 20 rpm:
+  // set the speed at 60 rpm:
   doorStepper.setSpeed(60);
   conStepper.setSpeed(60);
 
@@ -78,12 +93,29 @@ void setup()
   pinMode(sw, INPUT_PULLUP); //버튼 핀 풀업
 
 
+  #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
+  clock_prescale_set(clock_div_1);
+  #endif
+  // END of Trinket-specific code.
+
+  pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
+
 }
+
 
 void loop()
 { while (true) 
-{
-    //unsigned long now_time = millis();
+{   now=millis();
+    time_interval = now - past;
+    if(time_interval==20)
+    { 
+      pixels.clear();
+      long randNumber=random(1,17); //led 갯수가 16개라고 가정
+      long ledColor=random(1,151);
+      pixels.setPixelColor(randNumber, pixels.Color(ledColor, ledColor, ledColor));
+      pixels.show();
+      past = now;
+    }
 
     state = Serial.read(); //라파 시리얼 받기
     //Serial.write(end_message);
@@ -91,7 +123,8 @@ void loop()
 
     int button_state = digitalRead(sw); //버튼 상태. 풀업상태이므로 기본 1, 누를 때 0
 
-    delay(100);
+    delay(10);
+    Serial.println('0');
 
 
     if (state == 'a') //-> 기본 상태
@@ -113,7 +146,7 @@ void loop()
         closedoor();
         state = 'a';
         //end_message=0;
-        Serial.println('0');
+        Serial.println('1');
         }
       }
       main_process = 1;
@@ -133,7 +166,7 @@ void loop()
         closedoor();
         state = 'a';
         //end_message=1;
-        Serial.println('1');
+        Serial.println('2');
         }
       }
       main_process = 2;
@@ -150,7 +183,7 @@ void loop()
       {
       state = 'a';
       //end_message=2;
-      Serial.println('2');
+      Serial.println('3');
       }
       main_process= 2;
     }
