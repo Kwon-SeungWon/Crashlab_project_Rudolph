@@ -37,6 +37,10 @@ class SendGoal
     // 경유지 좌표
     double middle_x,middle_y,middle_z,middle_w;
     double dest_x,dest_y,dest_z,dest_w;
+    double initial_x = 0.0;
+    double initial_y = 0.0;
+    double initial_z = -3.0;
+    double initial_w = 0.5;  // 미정
     double x;
     double y;
     double theta;
@@ -50,4 +54,5 @@ class SendGoal
     void poseMsgCallBack(const rudolph_msgs::web_rasp::ConstPtr &msg);
     void SetMidDestination(double x_pos,double y_pos,double z_pos,double w_pos);
     void SetFinalDestination(double x_pos,double y_pos,double z_pos,double w_pos);
+    void SetInitialDestination(double x_pos,double y_pos,double z_pos,double w_pos);
 };

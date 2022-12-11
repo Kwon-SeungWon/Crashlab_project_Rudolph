@@ -178,7 +178,51 @@ bool SendGoal::SendFinArrive()
 
 bool SendGoal::GoBackHome()
 {
+  if(start == 5)
+  {
+    SetInitialDestination(initial_x,initial_y,initial_z,initial_w);
+  }
   return true;
+}
+
+void SendGoal::SetInitialDestination(double x_pos,double y_pos,double z_pos,double w_pos)
+{
+  typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
+  
+  MoveBaseClient client("move_base", true);
+  client.waitForServer();
+
+  ROS_INFO("Action server started, sending the goal");
+
+  move_base_msgs::MoveBaseGoal goal;
+  goal.target_pose.header.stamp = ros::Time::now();
+
+  // set frame
+  goal.target_pose.header.frame_id = "map";
+  // set position
+  goal.target_pose.pose.position.x = x_pos;
+  goal.target_pose.pose.position.y = y_pos;
+  goal.target_pose.pose.position.z = 0.0;
+
+  // set orientation
+  goal.target_pose.pose.orientation.x = 0.0;
+  goal.target_pose.pose.orientation.y = 0.0;
+  goal.target_pose.pose.orientation.z = z_pos;
+  goal.target_pose.pose.orientation.w = w_pos;
+
+  client.sendGoal(goal);
+
+  ROS_INFO("Waiting for the result");
+  bool finished_before_timeout = client.waitForResult(ros::Duration(1.0));
+
+  if (finished_before_timeout)
+  {
+    actionlib::SimpleClientGoalState state = client.getState();
+    ROS_INFO("Action finished: %s",state.toString().c_str());
+    //start = 2;
+  }
+  else
+    ROS_INFO("Action did not finish before the time out.");
 }
 
 
