@@ -142,6 +142,11 @@ def main():
     sub = rospy.Subscriber("master_val", rasp_arduino, act_callback)
     rate = rospy.Rate(5)  # 10hz
 
+    for _ in range(10):
+        pub.publish(pub_msg)
+        rospy.loginfo(pub_msg)
+        rate.sleep()
+    
     while not rospy.is_shutdown():
         if ser.readable():
             """
