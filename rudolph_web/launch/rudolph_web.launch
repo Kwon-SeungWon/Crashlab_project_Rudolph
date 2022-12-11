@@ -3,5 +3,5 @@
   <!-- Web -->
   <node pkg="rudolph_web" name="destination_publish" type="pub_dest.py"  output="screen"/>
   <!-- Ros_Arduino -->
-  <!-- <node pkg="rudolph_arduino" name="rasp_to_arduino" type="ros_arduino.py"  output="screen"/> -->
+  <node pkg="rudolph_arduino" name="rasp_to_arduino" type="ros_arduino.py"  output="screen"/>
 </launch>

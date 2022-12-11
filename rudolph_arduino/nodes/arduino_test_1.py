@@ -34,7 +34,7 @@ else:
     import tty, termios
 
 # Rx Tx 포트에서는 '/dev/ttyACM0'을 사용
-ser = serial.Serial("/dev/ttyACM0", 9600)
+ser = serial.Serial("/dev/ttyS0", 9600)
 URL = "http://140.238.28.123/fileUpload"  # 이미지 업로드 URL
 TIME_FORMAT = "%Y-%m-%d_%H:%M:%S"
 

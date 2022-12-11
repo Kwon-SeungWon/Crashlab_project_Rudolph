@@ -1,0 +1,29 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/ubuntu/catkin_ws/devel/include/**",
+        "/opt/ros/noetic/include/**",
+        "/opt/ros/noetic/share/amcl/include/**",
+        "/opt/ros/noetic/share/carrot_planner/include/**",
+        "/opt/ros/noetic/share/dwa_local_planner/include/**",
+        "/opt/ros/noetic/share/global_planner/include/**",
+        "/opt/ros/noetic/share/map_server/include/**",
+        "/home/ubuntu/catkin_ws/src/motor_test20/include/**",
+        "/opt/ros/noetic/share/move_slow_and_clear/include/**",
+        "/home/ubuntu/catkin_ws/src/rudolph/rudolph_navigation/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-arm64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
