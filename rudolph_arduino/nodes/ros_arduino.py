@@ -25,6 +25,7 @@ import sys
 import requests
 import cv2
 import datetime
+import time
 
 if os.name == "nt":
     import msvcrt
@@ -61,6 +62,8 @@ def save_image():
 
     check_dir()
     cam = cv2.VideoCapture(0)
+    time.sleep(1)  # 카메라 준비 시간
+
     ret, frame = cam.read()
 
     img_name = IMAGE_DIR + "/" + now_time + ".jpg"
