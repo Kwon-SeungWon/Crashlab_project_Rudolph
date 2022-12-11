@@ -172,7 +172,10 @@ def main():
         settings = termios.tcgetattr(sys.stdin)
 
     pub_msg = rasp_arduino()  # 메시지 객체 생성
-    pub_msg = clear_pub_msg(pub_msg)  # 메시지 초기화 (메세지 선언)
+    pub_msg.mid_arrive = 0
+    pub_msg.mid_fin = 0
+    pub_msg.fin_arrive = 0
+    pub_msg.fin_return = 0
 
     rospy.init_node("ros_arduino")
     pub = rospy.Publisher("slave_val", rasp_arduino, queue_size=10)
