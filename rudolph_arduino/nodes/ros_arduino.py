@@ -167,6 +167,7 @@ def clear_pub_msg(pub_msg):
 
 
 def main():
+    decode_val = ""
     state = 0
     if os.name != "nt":
         settings = termios.tcgetattr(sys.stdin)
@@ -185,6 +186,7 @@ def main():
     rate = rospy.Rate(10)  # 10hz
 
     while not rospy.is_shutdown():
+        print(decode_val)
         pub_msg.mid_arrive = 0
         pub_msg.mid_fin = 0
         pub_msg.fin_arrive = 0
