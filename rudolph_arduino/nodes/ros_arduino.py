@@ -32,8 +32,8 @@ if os.name == "nt":
 else:
     import tty, termios
 
-
-ser = serial.Serial("COM3", 9600)  # 'COM3' 부분에 환경에 맞는 포트 입력
+# Rx Tx 포트에서는 '/dev/ttyACM0'을 사용
+ser = serial.Serial("/dev/ttyACM0", 9600)
 URL = "http://140.238.28.123/fileUpload"  # 이미지 업로드 URL
 TIME_FORMAT = "%Y-%m-%d_%H:%M:%S"
 
