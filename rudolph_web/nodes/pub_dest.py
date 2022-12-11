@@ -104,7 +104,7 @@ def talker():
     rate = rospy.Rate(5)  # 10hz
 
     while not rospy.is_shutdown():
-        if count == 2:
+        if count == 10:
             break
         
         msg = set_msg(msg, dest, method)
