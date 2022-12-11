@@ -185,6 +185,10 @@ def main():
     rate = rospy.Rate(10)  # 10hz
 
     while not rospy.is_shutdown():
+        pub_msg.mid_arrive = 0
+        pub_msg.mid_fin = 0
+        pub_msg.fin_arrive = 0
+        pub_msg.fin_return = 0
 
         if ser.readable():
             """
@@ -193,7 +197,6 @@ def main():
             """
             val = ser.readline()  # 아두이노에서 보낸 메세지를 받는 코드
             decode_val = val.decode()[: len(val) - 1]  # 메세지 디코딩 후, 마지막 개행문자 제거
-            pub_msg = clear_pub_msg(pub_msg)  # 메세지 초기화
 
             if decode_val == "1":
                 pub_msg.mid_fin = 1
