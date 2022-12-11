@@ -1,3 +1,4 @@
+
 //문, 컨베이어 동작 아두이노 코드. 라파와 통신
 
 
@@ -14,17 +15,10 @@
 
 #include <SoftwareSerial.h>
 
-#include <Adafruit_NeoPixel.h>
-#ifdef __AVR__
-#include <avr/power.h> // Required for 16 MHz Adafruit Trinket
-#endif
+//#define PIN_TX 2
+//#define PIN_RX 3
 
-#define ledPIN 2
-#define NUMPIXELS 16 //아두이노에 부착된 neopixel 갯수
-
-#include <time.h>
-
-Adafruit_NeoPixel pixels(NUMPIXELS, ledPIN, NEO_GRB + NEO_KHZ800);
+//SoftwareSerial SerialROS(PIN_TX, PIN_RX);
 
 
 
@@ -37,19 +31,11 @@ char state ;
 int end_message =0; //끝날 때 보내는 메세지
 int main_process = 0;
 
-long past =millis();
-long now;
-long time_interval;
- 
 //unsigned long prev_time = 0;
 
 // Create Instance of Stepper library !!!!두 스탭의 핀 번호가 서로 뒤바뀌었는 지 확인 필요!!!!
 Stepper doorStepper(stepsPerRevolution, 11, 10, 9, 8);
 Stepper conStepper(stepsPerRevolution, 7, 6, 5, 4);
-
-
-
-
 
 
 void opendoor() // 문 열기 
@@ -85,7 +71,7 @@ void setup()
   delay(20); //통신 간격
 
 
-  // set the speed at 60 rpm:
+  // set the speed at 20 rpm:
   doorStepper.setSpeed(60);
   conStepper.setSpeed(60);
 
@@ -93,29 +79,12 @@ void setup()
   pinMode(sw, INPUT_PULLUP); //버튼 핀 풀업
 
 
-  #if defined(__AVR_ATtiny85__) && (F_CPU == 16000000)
-  clock_prescale_set(clock_div_1);
-  #endif
-  // END of Trinket-specific code.
-
-  pixels.begin(); // INITIALIZE NeoPixel strip object (REQUIRED)
-
 }
-
 
 void loop()
 { while (true) 
-{   now=millis();
-    time_interval = now - past;
-    if(time_interval==20)
-    { 
-      pixels.clear();
-      long randNumber=random(1,17); //led 갯수가 16개라고 가정
-      long ledColor=random(1,151);
-      pixels.setPixelColor(randNumber, pixels.Color(ledColor, ledColor, ledColor));
-      pixels.show();
-      past = now;
-    }
+{
+    //unsigned long now_time = millis();
 
     state = Serial.read(); //라파 시리얼 받기
     //Serial.write(end_message);
