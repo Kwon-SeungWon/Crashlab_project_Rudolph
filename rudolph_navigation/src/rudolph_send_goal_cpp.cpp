@@ -24,10 +24,10 @@ bool SendGoal::init()
 void SendGoal::poseMsgCallBack(const rudolph_msgs::web_rasp::ConstPtr &msg)
 {
   middle_x = msg->mid_x, middle_y = msg->mid_y;
-  middle_theta = msg->mid_theta;
+  middle_z = msg->mid_z, middle_w = msg->mid_w;
 
   dest_x = msg->fin_x, dest_y = msg->fin_y;
-  dest_theta = msg->fin_theta;
+  dest_z = msg->fin_z, dest_w = msg->fin_w;
 
   start = msg->state;
   std::cout << "dest_val 작동완료!!\n";
@@ -41,7 +41,7 @@ void SendGoal::signalCallBack(const rudolph_msgs::rasp_arduino::ConstPtr &sig)
 
 
 
-void SendGoal::SetFinalDestination(double x_pos,double y_pos,double theta)
+void SendGoal::SetFinalDestination(double x_pos,double y_pos,double z_pos,double w_pos)
 {
   typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
   
@@ -63,8 +63,8 @@ void SendGoal::SetFinalDestination(double x_pos,double y_pos,double theta)
   // set orientation
   goal.target_pose.pose.orientation.x = 0.0;
   goal.target_pose.pose.orientation.y = 0.0;
-  goal.target_pose.pose.orientation.z = sin(theta*0.5);
-  goal.target_pose.pose.orientation.w = cos(theta*0.5);
+  goal.target_pose.pose.orientation.z = z_pos;
+  goal.target_pose.pose.orientation.w = w_pos;
 
   client.sendGoal(goal);
 
@@ -85,12 +85,12 @@ bool SendGoal::GoFinalDestination()
 {
   if (start == 3)
   {
-    SetFinalDestination(dest_x, dest_y, dest_theta);
+    SetFinalDestination(dest_x, dest_y, dest_z, dest_w);
   }
   return true;
 }
 
-void SendGoal::SetMidDestination(double x_pos,double y_pos,double theta)
+void SendGoal::SetMidDestination(double x_pos,double y_pos,double z_pos,double w_pos)
 {
   typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
   
@@ -112,8 +112,8 @@ void SendGoal::SetMidDestination(double x_pos,double y_pos,double theta)
   // set orientation
   goal.target_pose.pose.orientation.x = 0.0;
   goal.target_pose.pose.orientation.y = 0.0;
-  goal.target_pose.pose.orientation.z = sin(theta*0.5);
-  goal.target_pose.pose.orientation.w = cos(theta*0.5);
+  goal.target_pose.pose.orientation.z = z_pos;
+  goal.target_pose.pose.orientation.w = w_pos;
 
   client.sendGoal(goal);
 
@@ -135,7 +135,7 @@ bool SendGoal::GoMidDestination()
 {
   if (start == 1)
   {
-    SetMidDestination(middle_x, middle_y, middle_theta);
+    SetMidDestination(middle_x, middle_y, middle_z, middle_w);
   }
   return true;
 }
@@ -178,7 +178,51 @@ bool SendGoal::SendFinArrive()
 
 bool SendGoal::GoBackHome()
 {
+  if(start == 5)
+  {
+    SetInitialDestination(initial_x,initial_y,initial_z,initial_w);
+  }
   return true;
+}
+
+void SendGoal::SetInitialDestination(double x_pos,double y_pos,double z_pos,double w_pos)
+{
+  typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
+  
+  MoveBaseClient client("move_base", true);
+  client.waitForServer();
+
+  ROS_INFO("Action server started, sending the goal");
+
+  move_base_msgs::MoveBaseGoal goal;
+  goal.target_pose.header.stamp = ros::Time::now();
+
+  // set frame
+  goal.target_pose.header.frame_id = "map";
+  // set position
+  goal.target_pose.pose.position.x = x_pos;
+  goal.target_pose.pose.position.y = y_pos;
+  goal.target_pose.pose.position.z = 0.0;
+
+  // set orientation
+  goal.target_pose.pose.orientation.x = 0.0;
+  goal.target_pose.pose.orientation.y = 0.0;
+  goal.target_pose.pose.orientation.z = z_pos;
+  goal.target_pose.pose.orientation.w = w_pos;
+
+  client.sendGoal(goal);
+
+  ROS_INFO("Waiting for the result");
+  bool finished_before_timeout = client.waitForResult(ros::Duration(1.0));
+
+  if (finished_before_timeout)
+  {
+    actionlib::SimpleClientGoalState state = client.getState();
+    ROS_INFO("Action finished: %s",state.toString().c_str());
+    //start = 2;
+  }
+  else
+    ROS_INFO("Action did not finish before the time out.");
 }
 
 
