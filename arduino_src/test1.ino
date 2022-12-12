@@ -137,7 +137,7 @@ void loop()
 { while (true)
   { now = millis();
     time_interval = now - past;
-    if (time_interval > 20)
+    if (time_interval > 2000)
     {
       pixels.clear();
       long randNumber1 = random(1, NUMPIXELS); //led 갯수가 40개라고 가정
