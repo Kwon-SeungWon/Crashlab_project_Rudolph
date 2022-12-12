@@ -164,6 +164,7 @@ def main():
 
                 for _ in range(10):
                     pub.publish(pub_msg)
+                    rospy.loginfo(pub_msg)
                     rate.sleep()
 
             if decode_val == "2":
@@ -174,6 +175,7 @@ def main():
 
                 for _ in range(10):
                     pub.publish(pub_msg)
+                    rospy.loginfo(pub_msg)
                     rate.sleep()
 
             if decode_val == "3":
@@ -184,6 +186,7 @@ def main():
 
                 for _ in range(10):
                     pub.publish(pub_msg)
+                    rospy.loginfo(pub_msg)
                     rate.sleep()
 
         rate.sleep()
