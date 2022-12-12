@@ -114,12 +114,12 @@ def act_callback(msg):
     """
     if msg.mid_arrive == 1:
         var = "b"
-        var = var.encode("utf-8")
+        var = var.encode("utf-16")
         ser.write(var)
 
     elif msg.fin_arrive == 1:
-        var = "c"
-        var = var.encode("utf-8")
+        var = "d"
+        var = var.encode("utf-16")
         ser.write(var)
 
     return None
@@ -146,7 +146,7 @@ def main():
         pub.publish(pub_msg)
         rospy.loginfo(pub_msg)
         rate.sleep()
-    
+
     while not rospy.is_shutdown():
         if ser.readable():
             """
