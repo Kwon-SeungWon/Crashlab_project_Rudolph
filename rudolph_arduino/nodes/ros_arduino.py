@@ -116,12 +116,12 @@ def act_callback(msg):
         var = "b"
         var = var.encode("utf-16")
         ser.write(var)
-
+        rospy.loginfo("master val")
     elif msg.fin_arrive == 1:
         var = "d"
         var = var.encode("utf-16")
         ser.write(var)
-
+        rospy.loginfo("master val")
     return None
 
 
