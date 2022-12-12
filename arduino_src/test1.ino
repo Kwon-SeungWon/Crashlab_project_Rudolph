@@ -89,8 +89,8 @@ void landbox() // 물건 내리기
 { 
   stepper_on();
   delay(200);
-  conStepper.step(1500);
-  delay(2000);
+  conStepper.step(1000);
+  delay(1000);
   conStepper.step(0);
   stepper_off();
   delay(500);
