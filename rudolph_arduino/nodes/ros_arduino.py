@@ -219,7 +219,6 @@ def main():
                     rate.sleep()
 
         pub.publish(pub_msg)  # 메세지 발행
-
         rate.sleep()
 
     if os.name != "nt":
