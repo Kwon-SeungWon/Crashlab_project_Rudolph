@@ -114,14 +114,14 @@ def act_callback(msg):
     """
     if msg.mid_arrive == 1:
         var = "b"
-        var = var.encode("utf-8")
+        var = var.encode("utf-16")
         ser.write(var)
-
+        rospy.loginfo("master val")
     elif msg.fin_arrive == 1:
-        var = "c"
-        var = var.encode("utf-8")
+        var = "d"
+        var = var.encode("utf-16")
         ser.write(var)
-
+        rospy.loginfo("master val")
     return None
 
 
@@ -146,7 +146,7 @@ def main():
         pub.publish(pub_msg)
         rospy.loginfo(pub_msg)
         rate.sleep()
-    
+
     while not rospy.is_shutdown():
         if ser.readable():
             """
@@ -164,6 +164,7 @@ def main():
 
                 for _ in range(10):
                     pub.publish(pub_msg)
+                    rospy.loginfo(pub_msg)
                     rate.sleep()
 
             if decode_val == "2":
@@ -174,6 +175,7 @@ def main():
 
                 for _ in range(10):
                     pub.publish(pub_msg)
+                    rospy.loginfo(pub_msg)
                     rate.sleep()
 
             if decode_val == "3":
@@ -184,6 +186,7 @@ def main():
 
                 for _ in range(10):
                     pub.publish(pub_msg)
+                    rospy.loginfo(pub_msg)
                     rate.sleep()
 
         rate.sleep()
