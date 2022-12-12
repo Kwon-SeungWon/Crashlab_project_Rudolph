@@ -96,6 +96,17 @@ void landbox() // 물건 내리기
   delay(500);
 }
 
+void loadbox() // 물건 싣기
+{
+  stepper_on();
+  delay(200);
+  conStepper.step(-300);
+  delay(1000);
+  conStepper.step(0);
+  stepper_off();
+  delay(500);
+}
+
 void closedoor() // 문 닫기
 {
   stepper_on();
@@ -157,7 +168,7 @@ void loop()
 
     int button_state = digitalRead(sw); //버튼 상태. 풀업상태이므로 기본 1, 누를 때 0
 
-    delay(10);
+    delay(50);
     Serial.println('0');
 
 
@@ -172,9 +183,11 @@ void loop()
       if (main_process == 0)
       {
         opendoor();
+        loadbox();
       }
       else if (main_process == 1)
-      {
+      {while(1)
+      { delay(10);
         if (button_state == 0)
         {
           closedoor();
@@ -182,6 +195,7 @@ void loop()
           //end_message=0;
           Serial.println('1');
         }
+      }
       }
       main_process = 1;
     }
@@ -194,7 +208,8 @@ void loop()
         landbox();
       }
       if (main_process == 2)
-      {
+      {while(1)
+      { delay(10);
         if (button_state == 0)
         {
           closedoor();
@@ -202,6 +217,7 @@ void loop()
           //end_message=1;
           Serial.println('2');
         }
+      }
       }
       main_process = 2;
     }
