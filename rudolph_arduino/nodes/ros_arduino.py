@@ -113,15 +113,18 @@ def act_callback(msg):
     아두이노에게 보내는 메세지: 'b' or 'c' (char형식에 유의)
     """
     if msg.mid_arrive == 1:
-        var = "b"
-        var = var.encode("utf-16")
-        ser.write(var)
-        rospy.loginfo("master val")
+        for _ in range(3):
+            var = "b"
+            var = var.encode("utf-16")
+            ser.write(var)
+        rospy.loginfo("master val: mid_arrive == 1")
+
     elif msg.fin_arrive == 1:
-        var = "d"
-        var = var.encode("utf-16")
-        ser.write(var)
-        rospy.loginfo("master val")
+        for _ in range(3):
+            var = "d"
+            var = var.encode("utf-16")
+            ser.write(var)
+        rospy.loginfo("master val: fin_arrive == 1")
     return None
 
 
