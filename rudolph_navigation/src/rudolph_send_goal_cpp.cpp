@@ -178,7 +178,6 @@ bool SendGoal::SendFinArrive()
     sig.mid_arrive = false;
     sig.fin_arrive = true;
     signal_pub_.publish(sig);
-    ROS_INFO(sig);
     
     ros::spinOnce();
     loop_rate.sleep();
