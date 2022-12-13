@@ -43,78 +43,86 @@ long time_interval;
 
 
 // Create Instance of Stepper library !!!!두 스탭의 핀 번호가 서로 뒤바뀌었는 지 확인 필요!!!!
-Stepper doorStepper(stepsPerRevolution, 11, 10, 9, 8);
-Stepper conStepper(stepsPerRevolution, 7, 6, 5, 4);
+Stepper doorStepper(stepsPerRevolution, 7, 6, 5, 4);
+Stepper conStepper(stepsPerRevolution, 11, 10, 9, 8);
 
 
 
-void stepper_on()
-{
-  digitalWrite(11, HIGH);
-  digitalWrite(10, HIGH);
-  digitalWrite(9, HIGH);
-  digitalWrite(8, HIGH);
+void door_stepper_on()
+{ 
   digitalWrite(7, HIGH);
   digitalWrite(6, HIGH);
   digitalWrite(5, HIGH);
   digitalWrite(4, HIGH);
 }
 
-void stepper_off()
+void door_stepper_off()
 {
-  digitalWrite(11, LOW);
-  digitalWrite(10, LOW);
-  digitalWrite(9, LOW);
-  digitalWrite(8, LOW);
   digitalWrite(7, LOW);
   digitalWrite(6, LOW);
   digitalWrite(5, LOW);
   digitalWrite(4, LOW);
 }
 
+void con_stepper_on()
+{
+  digitalWrite(11, HIGH);
+  digitalWrite(10, HIGH);
+  digitalWrite(9, HIGH);
+  digitalWrite(8, HIGH);
+ 
+}
+
+void con_stepper_off()
+{
+  digitalWrite(11, LOW);
+  digitalWrite(10, LOW);
+  digitalWrite(9, LOW);
+  digitalWrite(8, LOW);
+}
 
 void opendoor() // 문 열기
 {
-  stepper_on();
+  door_stepper_on();
   delay(200);
-  doorStepper.step(50);
+  doorStepper.step(100);
   delay(400);
   doorStepper.step(0);
-  stepper_off();
+  //stepper_off();
   delay(200);
 
 }
 
 void landbox() // 물건 내리기
 { 
-  stepper_on();
+  con_stepper_on();
   delay(200);
   conStepper.step(1000);
   delay(1000);
   conStepper.step(0);
-  stepper_off();
+  con_stepper_off();
   delay(500);
 }
 
 void loadbox() // 물건 싣기
 {
-  stepper_on();
+  con_stepper_on();
   delay(200);
   conStepper.step(-300);
   delay(1000);
   conStepper.step(0);
-  stepper_off();
+  con_stepper_off();
   delay(500);
 }
 
 void closedoor() // 문 닫기
 {
-  stepper_on();
+  door_stepper_on();
   delay(200);
-  doorStepper.step(-50);
+  doorStepper.step(-100);
   delay(400);
   doorStepper.step(0);
-  stepper_off();
+  door_stepper_off();
   delay(200);
 }
 
