@@ -146,7 +146,7 @@ bool SendGoal::SendMidArrive()
   {
     std::cout << "경유지 도착!!!!!!\n";
 
-    ros::Rate loop_rate(5);
+    ros::Rate loop_rate(1);
 
     rudolph_msgs::rasp_arduino sig;
     sig.mid_arrive = true;
@@ -172,7 +172,7 @@ bool SendGoal::SendFinArrive()
   {
     std::cout << "목적지 도착!!!!!\n";
 
-    ros::Rate loop_rate(5);
+    ros::Rate loop_rate(1);
 
     rudolph_msgs::rasp_arduino sig;
     sig.mid_arrive = false;
