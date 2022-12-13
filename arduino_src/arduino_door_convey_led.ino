@@ -168,7 +168,7 @@ void loop()
 
     int button_state = digitalRead(sw); //버튼 상태. 풀업상태이므로 기본 1, 누를 때 0
 
-    delay(50);
+    delay(10);
     Serial.println('0');
 
 
@@ -186,13 +186,20 @@ void loop()
       }
       else if (main_process == 1)
       {while(1)
-      { delay(10);
+      {
+       int button_state = digitalRead(sw);
+       delay(10);
         if (button_state == 0)
         {
           closedoor();
           state = 'a';
           //end_message=0;
+          for(int i=0;i<6;i++)
+          {
           Serial.println('1');
+          delay(10);
+          i++;
+          }
         }
       }
       }
@@ -209,12 +216,18 @@ void loop()
       if (main_process == 2)
       {while(1)
       { delay(10);
+        int button_state = digitalRead(sw);
         if (button_state == 0)
         {
           closedoor();
           state = 'a';
           //end_message=1;
+          for(int i=0;i<6;i++)
+          {
           Serial.println('2');
+          delay(10);
+          i++;
+          }
         }
       }
       }
@@ -232,7 +245,12 @@ void loop()
       {
         state = 'a';
         //end_message=2;
-        Serial.println('3');
+        for(int i=0;i<6;i++)
+          {
+          Serial.println('3');
+          delay(10);
+          i++;
+          }
       }
       main_process = 2;
     }
