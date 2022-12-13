@@ -143,7 +143,7 @@ def main():
 
     # act_callback을 통해 arduino로 메세지 즉시 전송
     sub = rospy.Subscriber("master_val", rasp_arduino, act_callback)
-    rate = rospy.Rate(5)  # 10hz
+    rate = rospy.Rate(10)  # 10hz
 
     for _ in range(10):
         pub.publish(pub_msg)
