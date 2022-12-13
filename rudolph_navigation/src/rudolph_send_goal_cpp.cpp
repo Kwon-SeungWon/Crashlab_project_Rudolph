@@ -158,6 +158,7 @@ bool SendGoal::SendMidArrive()
 
     if(Mid_Fin)
     {
+      std::cout << "경유지에서 목적지로!!!!!!\n";
       start = 3;
     }
 
@@ -177,12 +178,14 @@ bool SendGoal::SendFinArrive()
     sig.mid_arrive = false;
     sig.fin_arrive = true;
     signal_pub_.publish(sig);
+    ROS_INFO(sig);
     
     ros::spinOnce();
     loop_rate.sleep();
     
     if(Fin_Return)
     {
+      std::cout << "목적지에서 출발지로!!!!!!\n";
       start = 5;
     }
 
