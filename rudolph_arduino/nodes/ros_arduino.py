@@ -158,6 +158,7 @@ def main():
             """
             val = ser.readline()  # 아두이노에서 보낸 메세지를 받는 코드
             decode_val = val.decode()[: len(val) - 1]  # 메세지 디코딩 후, 마지막 개행문자 제거
+            decode_val = decode_val.strip("\r")
             decode_val = int(decode_val)
 
             if decode_val == 1:
