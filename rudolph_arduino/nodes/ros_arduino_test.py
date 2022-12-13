@@ -26,6 +26,7 @@ import requests
 import cv2
 import datetime
 import time
+import threading
 
 if os.name == "nt":
     import msvcrt
@@ -40,6 +41,71 @@ TIME_FORMAT = "%Y-%m-%d_%H:%M:%S"
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 UPPER_DIR = os.path.dirname(CURRENT_DIR)
 IMAGE_DIR = UPPER_DIR + "/images"
+
+lock = threading.Lock()
+rospy.init_node("ros_arduino")
+rate = rospy.Rate(5)  # 10hz
+
+
+def get_serial():
+    pub_msg = rasp_arduino()
+    pub = rospy.Publisher("slave_val", rasp_arduino, queue_size=10)
+
+    pub_msg.mid_arrive = 0
+    pub_msg.mid_fin = 0
+    pub_msg.fin_arrive = 0
+    pub_msg.fin_return = 0
+
+    for _ in range(10):
+        pub.publish(pub_msg)
+        rospy.loginfo(pub_msg)
+        rate.sleep()
+
+    while not rospy.is_shutdown():
+        if ser.readable():
+            """
+            아두이노에서 보낸 메세지를 받는 코드
+            serial값을 읽은 후, pub_msg에 변환해 저장.
+            """
+            val = ser.readline()  # 아두이노에서 보낸 메세지를 받는 코드
+            decode_val = val.decode()[: len(val) - 1]  # 메세지 디코딩 후, 마지막 개행문자 제거
+            rospy.loginfo(f"arduino -> rasp_sub: {decode_val}")
+
+            if decode_val == "1":
+                pub_msg.mid_arrive = 0
+                pub_msg.mid_fin = 1
+                pub_msg.fin_arrive = 0
+                pub_msg.fin_return = 0
+
+                for _ in range(10):
+                    pub.publish(pub_msg)
+                    rospy.loginfo(pub_msg)
+                    rate.sleep()
+
+            if decode_val == "2":
+                pub_msg.mid_arrive = 0
+                pub_msg.mid_fin = 0
+                pub_msg.fin_arrive = 0
+                pub_msg.fin_return = 1
+
+                for _ in range(10):
+                    pub.publish(pub_msg)
+                    rospy.loginfo(pub_msg)
+                    rate.sleep()
+
+            if decode_val == "3":
+                pub_msg.mid_arrive = 0
+                pub_msg.mid_fin = 1
+                pub_msg.fin_arrive = 0
+                pub_msg.fin_return = 0
+
+                for _ in range(10):
+                    pub.publish(pub_msg)
+                    rospy.loginfo(pub_msg)
+                    rate.sleep()
+
+        rate.sleep()
+    return None
 
 
 def check_dir():
@@ -132,77 +198,23 @@ def main():
     if os.name != "nt":
         settings = termios.tcgetattr(sys.stdin)
 
-    pub_msg = rasp_arduino()  # 메시지 객체 생성
-    pub_msg.mid_arrive = 0
-    pub_msg.mid_fin = 0
-    pub_msg.fin_arrive = 0
-    pub_msg.fin_return = 0
-
-    rospy.init_node("ros_arduino")
-    pub = rospy.Publisher("slave_val", rasp_arduino, queue_size=10)
-
     # act_callback을 통해 arduino로 메세지 즉시 전송
     sub = rospy.Subscriber("master_val", rasp_arduino, act_callback)
-    rate = rospy.Rate(5)  # 10hz
-
-    for _ in range(10):
-        pub.publish(pub_msg)
-        rospy.loginfo(pub_msg)
-        rate.sleep()
-
-    while not rospy.is_shutdown():
-        if ser.readable():
-            """
-            아두이노에서 보낸 메세지를 받는 코드
-            serial값을 읽은 후, pub_msg에 변환해 저장.
-            """
-            val = ser.readline()  # 아두이노에서 보낸 메세지를 받는 코드
-            decode_val = val.decode()[: len(val) - 1]  # 메세지 디코딩 후, 마지막 개행문자 제거
-            decode_val = int(decode_val)
-
-            if decode_val == 1:
-                pub_msg.mid_arrive = 0
-                pub_msg.mid_fin = 1
-                pub_msg.fin_arrive = 0
-                pub_msg.fin_return = 0
-
-                for _ in range(10):
-                    pub.publish(pub_msg)
-                    rospy.loginfo(pub_msg)
-                    rate.sleep()
-
-            if decode_val == 2:
-                pub_msg.mid_arrive = 0
-                pub_msg.mid_fin = 0
-                pub_msg.fin_arrive = 0
-                pub_msg.fin_return = 1
-
-                for _ in range(10):
-                    pub.publish(pub_msg)
-                    rospy.loginfo(pub_msg)
-                    rate.sleep()
-
-            if decode_val == 3:
-                pub_msg.mid_arrive = 0
-                pub_msg.mid_fin = 0
-                pub_msg.fin_arrive = 0
-                pub_msg.fin_return = 1
-
-                for _ in range(10):
-                    pub.publish(pub_msg)
-                    rospy.loginfo(pub_msg)
-                    rate.sleep()
-
-        rate.sleep()
 
     if os.name != "nt":
         termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
+
+    while not rospy.is_shutdown():
+        rate.sleep()
+        continue
 
     return None
 
 
 if __name__ == "__main__":
     try:
+        t = threading.Thread(target=get_serial)
+        t.start()
         main()
 
     except rospy.ROSInterruptException:

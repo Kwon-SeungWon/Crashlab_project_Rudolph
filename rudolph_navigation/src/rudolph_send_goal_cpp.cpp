@@ -144,13 +144,21 @@ bool SendGoal::SendMidArrive()
 {
   if(start == 2)
   {
+    std::cout << "경유지 도착!!!!!!\n";
+
+    ros::Rate loop_rate(1);
+
     rudolph_msgs::rasp_arduino sig;
     sig.mid_arrive = true;
     sig.fin_arrive = false;
     signal_pub_.publish(sig);
+    
+    ros::spinOnce();
+    loop_rate.sleep();
 
     if(Mid_Fin)
     {
+      std::cout << "경유지에서 목적지로!!!!!!\n";
       start = 3;
     }
 
@@ -162,13 +170,21 @@ bool SendGoal::SendFinArrive()
 {
   if(start == 4)
   {
+    std::cout << "목적지 도착!!!!!\n";
+
+    ros::Rate loop_rate(1);
+
     rudolph_msgs::rasp_arduino sig;
     sig.mid_arrive = false;
     sig.fin_arrive = true;
     signal_pub_.publish(sig);
-
+    
+    ros::spinOnce();
+    loop_rate.sleep();
+    
     if(Fin_Return)
     {
+      std::cout << "목적지에서 출발지로!!!!!!\n";
       start = 5;
     }
 
