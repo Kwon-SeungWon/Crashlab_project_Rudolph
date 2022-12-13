@@ -97,11 +97,11 @@ void landbox() // 물건 내리기
 { 
   con_stepper_on();
   delay(200);
-  conStepper.step(1000);
+  conStepper.step(1200);
   delay(1000);
   conStepper.step(0);
   con_stepper_off();
-  delay(500);
+  delay(200);
 }
 
 void loadbox() // 물건 싣기
