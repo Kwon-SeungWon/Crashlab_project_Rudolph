@@ -77,7 +77,7 @@ void opendoor() // 문 열기
 {
   stepper_on();
   delay(200);
-  doorStepper.step(100);
+  doorStepper.step(50);
   delay(400);
   doorStepper.step(0);
   stepper_off();
@@ -111,7 +111,7 @@ void closedoor() // 문 닫기
 {
   stepper_on();
   delay(200);
-  doorStepper.step(-100);
+  doorStepper.step(-50);
   delay(400);
   doorStepper.step(0);
   stepper_off();
