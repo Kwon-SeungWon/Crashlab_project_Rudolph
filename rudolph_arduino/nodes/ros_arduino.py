@@ -159,9 +159,8 @@ def main():
             val = ser.readline()  # 아두이노에서 보낸 메세지를 받는 코드
             decode_val = val.decode()[: len(val) - 1]  # 메세지 디코딩 후, 마지막 개행문자 제거
             decode_val = decode_val.strip("\r")
-            decode_val = int(decode_val)
 
-            if decode_val == 1:
+            if decode_val == "1":
                 pub_msg.mid_arrive = 0
                 pub_msg.mid_fin = 1
                 pub_msg.fin_arrive = 0
@@ -172,7 +171,7 @@ def main():
                     rospy.loginfo(pub_msg)
                     rate.sleep()
 
-            if decode_val == 2:
+            if decode_val == "2":
                 pub_msg.mid_arrive = 0
                 pub_msg.mid_fin = 0
                 pub_msg.fin_arrive = 0
@@ -183,7 +182,7 @@ def main():
                     rospy.loginfo(pub_msg)
                     rate.sleep()
 
-            if decode_val == 3:
+            if decode_val == "3":
                 pub_msg.mid_arrive = 0
                 pub_msg.mid_fin = 0
                 pub_msg.fin_arrive = 0
