@@ -40,6 +40,8 @@ int main_process = 0;
 long past = millis();
 long now;
 long time_interval;
+int mid_fin = 0;
+int fin_fin = 0;
 
 
 // Create Instance of Stepper library !!!!두 스탭의 핀 번호가 서로 뒤바뀌었는 지 확인 필요!!!!
@@ -119,7 +121,7 @@ void closedoor() // 문 닫기
 {
   door_stepper_on();
   delay(200);
-  doorStepper.step(-100);
+  doorStepper.step(-50);
   delay(400);
   doorStepper.step(0);
   door_stepper_off();
@@ -177,7 +179,7 @@ void loop()
     int button_state = digitalRead(sw); //버튼 상태. 풀업상태이므로 기본 1, 누를 때 0
 
     delay(10);
-    Serial.println('0');
+    //Serial.println('0');
 
 
     if (state == 'a') //-> 기본 상태
@@ -186,7 +188,7 @@ void loop()
     }
 
 
-    if (state == 'b')  // 경유지 동작 -> 문이 열리고 버튼을 누르면 문이 닫힘. 이후 라파에 end_message 전송
+    if (state == 'b'&& mid_fin==0)  // 경유지 동작 -> 문이 열리고 버튼을 누르면 문이 닫힘. 이후 라파에 end_message 전송
     {
       if (main_process == 0)
       {
@@ -208,13 +210,14 @@ void loop()
           delay(10);
           i++;
           }
+          mid_fin=1;
         }
       }
       }
       main_process = 1;
     }
 
-    if (state == 'c') // 도착지(직접 수령) 동작 -> 문이 열리고 컨베이어가 작동. 버튼이 눌리면 문이 닫히고 라파에  end_message 전송
+    if (state == 'c'&&fin_fin==0) // 도착지(직접 수령) 동작 -> 문이 열리고 컨베이어가 작동. 버튼이 눌리면 문이 닫히고 라파에  end_message 전송
     {
       if (main_process == 1)
       {
@@ -235,13 +238,14 @@ void loop()
           Serial.println('2');
           delay(10);
           i++;
-          }
+          } 
+          fin_fin = 1;
         }
       }
       }
       main_process = 2;
     }
-    if (state == 'd') // 도착지(비대면 수령) 문이 열리고 컨베이어가 작동. 이후 문이 닫히고 라파에 end_message 전송
+    if (state == 'd' && fin_fin == 0) // 도착지(비대면 수령) 문이 열리고 컨베이어가 작동. 이후 문이 닫히고 라파에 end_message 전송
     {
       if (main_process == 1)
       {
@@ -259,6 +263,7 @@ void loop()
           delay(10);
           i++;
           }
+          fin_fin = 1;
       }
       main_process = 2;
     }
