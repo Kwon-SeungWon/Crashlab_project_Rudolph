@@ -158,28 +158,19 @@ void turn_on_led(){
 
 void mid_point()
 {
-  if (main_process == 0)
-    {
-      opendoor();
-      main_process = 1;
-    }
-
-  if (main_process == 1)
+  while (1)
   {
-    while (1)
+    int button_state = digitalRead(sw);
+    delay(10);
+    if (button_state == 0)
     {
-      int button_state = digitalRead(sw);
-      delay(10);
-      if (button_state == 0)
+      closedoor();
+      for (int i = 0; i < 6; i++)
       {
-        closedoor();
-
-        for (int i = 0; i < 6; i++)
-        {
-          Serial.println('1');
-          delay(10);
-        }
+        Serial.println('1');
+        delay(10);
       }
+      break;
     }
   }
 }
@@ -202,6 +193,7 @@ void final_point_direct()
         Serial.println('2');
         delay(10);
       }
+      break;
     }
   }
 }
