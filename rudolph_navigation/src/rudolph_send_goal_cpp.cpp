@@ -289,7 +289,7 @@ bool SendGoal::GoFinalDestination2()
 {
     if(start == 4)  // 112 중간1
     {
-      SetFinalDestination2(38.037 ,11.450 ,-0.6148, 0.976);
+      SetFinalDestination2(38.037 ,12.000 ,-0.5148, 0.976);
       // ros::param::set("/max_vel_theta",0.5);
       // ros::param::set("/min_vel_theta",-6.0);
     }
