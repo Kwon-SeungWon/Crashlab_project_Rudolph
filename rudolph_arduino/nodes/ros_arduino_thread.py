@@ -156,9 +156,9 @@ def get_serial():
 
             if decode_val == "3":
                 pub_msg.mid_arrive = 0
-                pub_msg.mid_fin = 1
+                pub_msg.mid_fin = 0
                 pub_msg.fin_arrive = 0
-                pub_msg.fin_return = 0
+                pub_msg.fin_return = 1
 
                 for _ in range(10):
                     pub.publish(pub_msg)

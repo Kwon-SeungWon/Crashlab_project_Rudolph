@@ -208,10 +208,10 @@ void final_point_untect()
   landbox();
   closedoor();
 
-  for (int i = 0; i < 6; i++)
+  for (int i = 0; i < 20; i++)
   {
     Serial.println('3');
-    delay(10);
+    delay(20);
   }
 }
 
