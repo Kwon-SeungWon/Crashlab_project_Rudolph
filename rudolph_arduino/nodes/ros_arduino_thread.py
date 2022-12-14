@@ -67,7 +67,7 @@ def get_serial():
 
         check_dir()
         cam = cv2.VideoCapture(0)
-        time.sleep(1)  # 카메라 준비 시간
+        time.sleep(2)  # 카메라 준비 시간
 
         ret, frame = cam.read()
 
