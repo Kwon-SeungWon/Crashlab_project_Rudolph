@@ -239,7 +239,7 @@ bool SendGoal::GoFinalDestination1()
 {
     if (start == 3) // 112 위방향
     {
-      SetFinalDestination1(35.000 ,12.12 ,0.097,0.99);
+      SetFinalDestination1(34.000 ,12.12 ,0.097,0.99);
     }
   return true;
 }
@@ -248,7 +248,7 @@ bool SendGoal::GoFinalDestination2()
 {
     if(start == 4)  // 112 중간
     {
-      SetFinalDestination2(38.337 ,11.750 ,-0.47,0.818);
+      SetFinalDestination2(38.337 ,11.750 ,-0.37,0.818);
     }
   return true;
 }

@@ -97,9 +97,9 @@ def talker():
     msg = web_rasp()
 
     msg.state = 1
-    msg.mid_x = 22.943568993207002  # 112호 x좌표
-    msg.mid_y = 11.193750460054984  # 112호 y좌표
-    msg.mid_z = 0.07728127496148936  # 112호 z값
+    msg.mid_x = 23.183568993207002  # 112호 x좌표
+    msg.mid_y = 11.620750460054984  # 112호 y좌표
+    msg.mid_z = 0.05728127496148936  # 112호 z값
     msg.mid_w = 0.489173570437249  # 112호 w값
 
     rospy.init_node("pub_dest")
