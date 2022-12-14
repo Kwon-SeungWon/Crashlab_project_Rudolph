@@ -159,6 +159,46 @@ void SendGoal::SetFinalDestination3(double x_pos,double y_pos,double z_pos,doubl
     ROS_INFO("Action did not finish before the time out.");
 }
 
+void SendGoal::SetFinalDestination4(double x_pos,double y_pos,double z_pos,double w_pos)
+{
+  typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
+  
+  MoveBaseClient client("move_base", true);
+  client.waitForServer();
+
+  ROS_INFO("Action server started, sending the goal");
+
+  move_base_msgs::MoveBaseGoal goal;
+  goal.target_pose.header.stamp = ros::Time::now();
+
+  // set frame
+  goal.target_pose.header.frame_id = "map";
+  // set position
+  goal.target_pose.pose.position.x = x_pos;
+  goal.target_pose.pose.position.y = y_pos;
+  goal.target_pose.pose.position.z = 0.0;
+
+  // set orientation
+  goal.target_pose.pose.orientation.x = 0.0;
+  goal.target_pose.pose.orientation.y = 0.0;
+  goal.target_pose.pose.orientation.z = z_pos;
+  goal.target_pose.pose.orientation.w = w_pos;
+
+  client.sendGoal(goal);
+
+  ROS_INFO("Waiting for the result");
+  bool finished_before_timeout = client.waitForResult(ros::Duration(1.0));
+
+  if (finished_before_timeout)
+  {
+    actionlib::SimpleClientGoalState state = client.getState();
+    ROS_INFO("Action finished: %s",state.toString().c_str());
+    start = 7;
+  }
+  else
+    ROS_INFO("Action did not finish before the time out.");
+}
+
 void SendGoal::SetMidDestination(double x_pos,double y_pos,double z_pos,double w_pos)
 {
   typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
@@ -246,25 +286,34 @@ bool SendGoal::GoFinalDestination1()
 
 bool SendGoal::GoFinalDestination2()
 {
-    if(start == 4)  // 112 중간
+    if(start == 4)  // 112 중간1
     {
-      SetFinalDestination2(38.337 ,11.750 ,-0.2148,0.976);
+      SetFinalDestination2(38.337 ,11.750 ,-0.2148, 0.976);
     }
   return true;
 }
 
 bool SendGoal::GoFinalDestination3()
 {
-    if(start == 5)  // 112
+    if(start == 5)  // 112 중간2
     {
-      SetFinalDestination3(dest_x, dest_y, dest_z, dest_w);
+      SetFinalDestination3(38.337 ,10.950 ,-0.4148, 0.876);
+    }
+  return true;
+}
+
+bool SendGoal::GoFinalDestination4()
+{
+    if(start == 6)  // 112
+    {
+      SetFinalDestination4(dest_x, dest_y, dest_z, dest_w);
     }
   return true;
 }
 
 bool SendGoal::SendFinArrive()
 {
-  if(start == 6)
+  if(start == 7)
   {
     std::cout << "목적지 도착!!!!!\n";
 
@@ -281,7 +330,7 @@ bool SendGoal::SendFinArrive()
     if(Fin_Return)
     {
       std::cout << "목적지에서 출발지로!!!!!!\n";
-      start = 7;
+      start = 8;
     }
 
   }
@@ -290,7 +339,7 @@ bool SendGoal::SendFinArrive()
 
 bool SendGoal::GoBackHome()
 {
-  if(start == 7)
+  if(start == 8)
   {
     SetInitialDestination(initial_x,initial_y,initial_z,initial_w);
   }
@@ -349,7 +398,8 @@ int main(int argc, char** argv){
     sendgoal.SendMidArrive();
     sendgoal.GoFinalDestination1(); // 112 전 직진
     sendgoal.GoFinalDestination2(); // 112 우회전
-    sendgoal.GoFinalDestination3(); // 112 실제 위치
+    sendgoal.GoFinalDestination3(); // 112 우회전2
+    sendgoal.GoFinalDestination4(); // 112 실제 위치
     sendgoal.SendFinArrive();
     sendgoal.GoBackHome(); 
     ros::spinOnce();
