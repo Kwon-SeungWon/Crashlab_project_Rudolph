@@ -403,12 +403,12 @@ bool SendGoal::ClearCostmap()
 int main(int argc, char** argv){
   ros::init(argc, argv, "send_goal_cpp");
   SendGoal sendgoal;
-  prev_time = ros::Time::now();
+  ros::Time prev_time = ros::Time::now();
   
   //int check = 0;
 
   while(ros::ok()){  
-    now_time = ros::Time::now();
+    ros::Time now_time = ros::Time::now();
     if (now_time - prev_time > ros::Duration(5.0))
     {
       sendgoal.ClearCostmap();
