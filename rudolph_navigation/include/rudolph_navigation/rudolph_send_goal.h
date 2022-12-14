@@ -12,7 +12,9 @@ class SendGoal
     bool init();
     //bool GotoGoal();
     bool GoMidDestination();
-    bool GoFinalDestination();
+    bool GoFinalDestination1();
+    bool GoFinalDestination2();
+    bool GoFinalDestination3();
     bool GoBackHome();
 
     bool SendMidArrive();
@@ -53,6 +55,8 @@ class SendGoal
 
     void poseMsgCallBack(const rudolph_msgs::web_rasp::ConstPtr &msg);
     void SetMidDestination(double x_pos,double y_pos,double z_pos,double w_pos);
-    void SetFinalDestination(double x_pos,double y_pos,double z_pos,double w_pos);
+    void SetFinalDestination1(double x_pos,double y_pos,double z_pos,double w_pos);
+    void SetFinalDestination2(double x_pos,double y_pos,double z_pos,double w_pos);
+    void SetFinalDestination3(double x_pos,double y_pos,double z_pos,double w_pos);
     void SetInitialDestination(double x_pos,double y_pos,double z_pos,double w_pos);
 };

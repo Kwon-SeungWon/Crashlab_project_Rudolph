@@ -12,15 +12,11 @@ import requests
 import json
 import os
 import sys
-import datetime
-import time
 
 if os.name == "nt":
     import msvcrt
 else:
     import tty, termios
-
-TIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 
 def get_dest_dict() -> dict:
@@ -56,7 +52,7 @@ def convert_dest_to_coord(dest: str):
         "119": [0.0, 0.0, 0.0, 0.0],
         "120": [0.0, 0.0, 0.0, 0.0],
         "121": [0.0, 0.0, 0.0, 0.0],
-        "122": [37.021 , 10.771, 0.997, 0.121],
+        "122": [0.0, 0.0, 0.0, 0.0],
         "123": [0.0, 0.0, 0.0, 0.0],
         "124": [0.0, 0.0, 0.0, 0.0],
         "125": [0.0, 0.0, 0.0, 0.0],
@@ -91,51 +87,33 @@ def set_msg(msg, dest, method):
 
 
 def talker():
-    process = 0
     if os.name != "nt":
         settings = termios.tcgetattr(sys.stdin)
+    count = 0
     msg = web_rasp()
 
     msg.state = 1
-    msg.mid_x = 23.183568993207002  # 112호 x좌표
-    msg.mid_y = 11.620750460054984  # 112호 y좌표
-    msg.mid_z = 0.05728127496148936  # 112호 z값
-    msg.mid_w = 0.489173570437249  # 112호 w값
+    msg.mid_x = 22.443568993207002  # 112호 x좌표
+    msg.mid_y = 11.193750460054984  # 112호 y좌표
+    msg.mid_z = 0.09728127496148936  # 112호 z값
+    msg.mid_w = 0.689173570437249  # 112호 w값
+
+    dest = get_dest()  # e.g. 113
+    method = get_method()  # e.g. 0
 
     rospy.init_node("pub_dest")
     pub = rospy.Publisher("dest_val", web_rasp, queue_size=10)
     rate = rospy.Rate(5)  # 10hz
 
     while not rospy.is_shutdown():
-        dest_dict = get_dest_dict()
-        dest = dest_dict["dest"]  # e.g. 113
-        method = dest_dict["method"]  # e.g. 0
-        web_time = dest_dict["time"]  # e.g. 2021-06-01 00:00:00
-
-        now_time = datetime.datetime.now().strftime(TIME_FORMAT)
-        time_diff = datetime.datetime.strptime(
-            now_time, TIME_FORMAT
-        ) - datetime.datetime.strptime(web_time, TIME_FORMAT)
-
-        if time_diff.seconds < 60:
-            process = 1
-            # 서버에서 받은 시간이 1분 이내이면 break
+        if count == 10:
             break
-        time.sleep(1)
-        rospy.loginfo("waiting for server")
 
-    if process == 1:
+        msg = set_msg(msg, dest, method)
+        pub.publish(msg)
 
-        rospy.loginfo("connected to server")
-        rospy.loginfo("dest: %s, method: %s", dest, method)
-
-        for _ in range(10):
-            # 10번 msg 보내기
-            msg = set_msg(msg, dest, method)
-            pub.publish(msg)
-
-            rate.sleep()
-
+        rate.sleep()
+        count += 1
     if os.name != "nt":
         termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
 
