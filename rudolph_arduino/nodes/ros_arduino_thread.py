@@ -66,8 +66,9 @@ def get_serial():
         now_time = datetime.datetime.now().strftime(TIME_FORMAT)
 
         check_dir()
-        cam = cv2.VideoCapture(0)
-        time.sleep(2)  # 카메라 준비 시간
+        for _ in range(20):
+            cam = cv2.VideoCapture(0)
+            time.sleep(0.1)  # 카메라 준비 시간
 
         ret, frame = cam.read()
 
