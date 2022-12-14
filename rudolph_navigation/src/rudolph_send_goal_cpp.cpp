@@ -248,7 +248,7 @@ bool SendGoal::GoFinalDestination2()
 {
     if(start == 4)  // 112 중간
     {
-      SetFinalDestination2(38.337 ,11.750 ,-0.37,0.818);
+      SetFinalDestination2(38.337 ,11.750 ,-0.2148,0.976);
     }
   return true;
 }
