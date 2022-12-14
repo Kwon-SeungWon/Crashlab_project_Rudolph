@@ -146,14 +146,18 @@ void loop()
     if (time_interval > 1000)
     {
       pixels.clear();
-      for (int i = 1; i < 70; i++)
+      for (int i = 1; i < NUMPIXELS; i++)
       {
 
-        long randNumber1 = random(1, NUMPIXELS); //led 갯수가 NUMPIXELS(현재:44) 빨간색 생성
-        pixels.setPixelColor(randNumber1, pixels.Color(10, 0, 0));
 
-        long randNumber2 = random(1, NUMPIXELS); //led 갯수가 NUMPIXELS(현재:44) 초 생
-        pixels.setPixelColor(randNumber2, pixels.Color(0, 10, 0));
+        int randNumber = random(1, 3); //led 갯수가 NUMPIXELS(현재:44) 빨간색 생성
+        if (randNumber == 1) {
+          pixels.setPixelColor(i, pixels.Color(10, 0, 0));
+        }
+        else
+        {
+          pixels.setPixelColor(i, pixels.Color(0, 10, 0));
+        }
       }
       pixels.show();
       past = now;
@@ -173,7 +177,7 @@ void loop()
     }
 
 
-    if (state == 'b'&& mid_fin==0)  // 경유지 동작 -> 문이 열리고 버튼을 누르면 문이 닫힘. 이후 라파에 end_message 전송
+    if (state == 'b' && mid_fin == 0) // 경유지 동작 -> 문이 열리고 버튼을 누르면 문이 닫힘. 이후 라파에 end_message 전송
     {
       if (main_process == 0)
       {
@@ -195,14 +199,14 @@ void loop()
               delay(10);
               i++;
             }
-            mid_fin=1;
+            mid_fin = 1;
           }
         }
       }
       main_process = 1;
     }
 
-    if (state == 'c'&& fin_fin==0) // 도착지(직접 수령) 동작 -> 문이 열리고 컨베이어가 작동. 버튼이 눌리면 문이 닫히고 라파에  end_message 전송
+    if (state == 'c' && fin_fin == 0) // 도착지(직접 수령) 동작 -> 문이 열리고 컨베이어가 작동. 버튼이 눌리면 문이 닫히고 라파에  end_message 전송
     {
       if (main_process == 1)
       {
@@ -224,13 +228,13 @@ void loop()
               delay(10);
               i++;
             }
-            fin_fin=1;
+            fin_fin = 1;
           }
         }
       }
       main_process = 2;
     }
-    if (state == 'd'&& fin_fin==0) // 도착지(비대면 수령) 문이 열리고 컨베이어가 작동. 이후 문이 닫히고 라파에 end_message 전송
+    if (state == 'd' && fin_fin == 0) // 도착지(비대면 수령) 문이 열리고 컨베이어가 작동. 이후 문이 닫히고 라파에 end_message 전송
     {
       if (main_process == 1)
       {
@@ -248,7 +252,7 @@ void loop()
           delay(10);
           i++;
         }
-        fin_fin=1;
+        fin_fin = 1;
       }
       main_process = 2;
     }
