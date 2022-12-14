@@ -32,4 +32,7 @@
 
   <!-- Send Goal-->
   <node name="GOGO" pkg="rudolph_navigation" type="rudolph_send_goal_cpp" output="screen"/> 
+
+  <!-- clear costmap
+  <node name="CLEAR" pkg="rudolph_navigation" type="rudolph_clearmap_cpp" output="screen"/>  -->
 </launch>
