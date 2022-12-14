@@ -42,8 +42,8 @@ class SendGoal
     double dest_x,dest_y,dest_z,dest_w;
     double initial_x = 0.0;
     double initial_y = 0.0;
-    double initial_z = -3.0;
-    double initial_w = 0.5;  // 미정
+    double initial_z = -0.9;
+    double initial_w = 0.9;  // 미정
     double x;
     double y;
     double theta;

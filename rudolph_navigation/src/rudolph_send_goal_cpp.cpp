@@ -288,7 +288,9 @@ bool SendGoal::GoFinalDestination2()
 {
     if(start == 4)  // 112 중간1
     {
-      SetFinalDestination2(38.337 ,11.750 ,-0.2148, 0.976);
+      SetFinalDestination2(38.037 ,12.100 ,-0.2148, 0.976);
+      ros::param::set("/max_vel_theta",0.5);
+      ros::param::set("/min_vel_theta",-6.0);
     }
   return true;
 }
@@ -297,7 +299,7 @@ bool SendGoal::GoFinalDestination3()
 {
     if(start == 5)  // 112 중간2
     {
-      SetFinalDestination3(38.337 ,10.950 ,-0.4148, 0.876);
+      SetFinalDestination3(38.037 ,11.150 ,-0.6548, 0.876);
     }
   return true;
 }
@@ -306,7 +308,9 @@ bool SendGoal::GoFinalDestination4()
 {
     if(start == 6)  // 112
     {
-      SetFinalDestination4(dest_x, dest_y, dest_z, dest_w);
+      SetFinalDestination4(dest_x, dest_y, dest_z, dest_w); //[37.021 , 10.771, 0.997, 0.121]
+      ros::param::set("/max_vel_theta",4.0);
+      ros::param::set("/min_vel_theta",4.0);
     }
   return true;
 }
