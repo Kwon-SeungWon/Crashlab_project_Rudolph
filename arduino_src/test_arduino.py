@@ -40,25 +40,25 @@ def main():
             var = input()
 
             if var == 'a':
-                var = var.encode("utf-8")
+                var = var.encode("utf-16")
                 ser.write(var)
                 print(f"send {var}")
                 time.sleep(0.5)
 
             if var == 'b':
-                var = var.encode("utf-8")
+                var = var.encode("utf-16")
                 ser.write(var)
                 print(f"send {var}")
                 time.sleep(0.5)
 
             if var == "c":
-                var = var.encode("utf-8")
+                var = var.encode("utf-16")
                 ser.write(var)
                 print(f"send {var}")
                 time.sleep(0.5)
 
             if var == "d":
-                var = var.encode("utf-8")
+                var = var.encode("utf-16")
                 ser.write(var)
                 print(f"send {var}")
                 time.sleep(0.5)
