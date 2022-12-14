@@ -48,6 +48,7 @@ rate = rospy.Rate(5)  # 10hz
 
 
 def get_serial():
+    count = 0
     pub_msg = rasp_arduino()
     pub = rospy.Publisher("slave_val", rasp_arduino, queue_size=10)
 
@@ -104,6 +105,11 @@ def get_serial():
                     pub.publish(pub_msg)
                     rospy.loginfo(pub_msg)
                     rate.sleep()
+
+                if count == 0:
+                    time.sleep(3)
+                    post_image()
+                    count = 1
 
         rate.sleep()
     return None

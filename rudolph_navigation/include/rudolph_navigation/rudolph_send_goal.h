@@ -15,6 +15,7 @@ class SendGoal
     bool GoFinalDestination1();
     bool GoFinalDestination2();
     bool GoFinalDestination3();
+    bool GoFinalDestination4();
     bool GoBackHome();
 
     bool SendMidArrive();
@@ -58,5 +59,6 @@ class SendGoal
     void SetFinalDestination1(double x_pos,double y_pos,double z_pos,double w_pos);
     void SetFinalDestination2(double x_pos,double y_pos,double z_pos,double w_pos);
     void SetFinalDestination3(double x_pos,double y_pos,double z_pos,double w_pos);
+    void SetFinalDestination4(double x_pos,double y_pos,double z_pos,double w_pos);
     void SetInitialDestination(double x_pos,double y_pos,double z_pos,double w_pos);
-};
+};    bool GoFinalDestination3();
