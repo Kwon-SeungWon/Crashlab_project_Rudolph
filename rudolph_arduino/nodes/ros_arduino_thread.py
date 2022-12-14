@@ -48,6 +48,65 @@ rate = rospy.Rate(5)  # 10hz
 
 
 def get_serial():
+    def check_dir():
+        """
+        이미지 파일 다루기 전, 상위 폴더 안에 images 폴더가 있는지 확인. 없으면 images 폴더 생성
+        """
+        if not os.path.isdir(UPPER_DIR + "/images"):
+            os.mkdir(UPPER_DIR + "/images")
+
+        return None
+
+    def save_image():
+        """
+        웹캠 화면을 저장하는 코드.
+        return: 저장된 이미지 파일 이름(현재 시간), 저장된 이미지 파일 경로
+        """
+
+        now_time = datetime.datetime.now().strftime(TIME_FORMAT)
+
+        check_dir()
+        cam = cv2.VideoCapture(0)
+        time.sleep(1)  # 카메라 준비 시간
+
+        ret, frame = cam.read()
+
+        img_name = IMAGE_DIR + "/" + now_time + ".jpg"
+        cv2.imwrite(img_name, frame)
+
+        cam.release()
+        cv2.destroyAllWindows()
+
+        file_name = now_time + ".jpg"
+        file_path = IMAGE_DIR + "/" + now_time + ".jpg"
+
+        return file_name, file_path
+
+    def upload_image(file_name, file_path):
+        """
+        URL로 이미지파일을 업로드하는 함수
+        """
+        filename = file_name
+        filepath = file_path
+
+        image_file = {
+            "file": (filename, open(filepath, "rb")),
+            "Content-Type": "image/jpg",
+            # "Content-Length": l,
+        }
+        requests.post(URL, files=image_file)
+
+        return None
+
+    def post_image():
+        """
+        종합적인 이미지 업로드 코드
+        """
+        file_name, file_path = save_image()
+        upload_image(file_name, file_path)
+
+        return None
+
     count = 0
     pub_msg = rasp_arduino()
     pub = rospy.Publisher("slave_val", rasp_arduino, queue_size=10)
@@ -112,69 +171,6 @@ def get_serial():
                     count = 1
 
         rate.sleep()
-    return None
-
-
-def check_dir():
-    """
-    이미지 파일 다루기 전, 상위 폴더 안에 images 폴더가 있는지 확인. 없으면 images 폴더 생성
-    """
-    if not os.path.isdir(UPPER_DIR + "/images"):
-        os.mkdir(UPPER_DIR + "/images")
-
-    return None
-
-
-def save_image():
-    """
-    웹캠 화면을 저장하는 코드.
-    return: 저장된 이미지 파일 이름(현재 시간), 저장된 이미지 파일 경로
-    """
-
-    now_time = datetime.datetime.now().strftime(TIME_FORMAT)
-
-    check_dir()
-    cam = cv2.VideoCapture(0)
-    time.sleep(1)  # 카메라 준비 시간
-
-    ret, frame = cam.read()
-
-    img_name = IMAGE_DIR + "/" + now_time + ".jpg"
-    cv2.imwrite(img_name, frame)
-
-    cam.release()
-    cv2.destroyAllWindows()
-
-    file_name = now_time + ".jpg"
-    file_path = IMAGE_DIR + "/" + now_time + ".jpg"
-
-    return file_name, file_path
-
-
-def upload_image(file_name, file_path):
-    """
-    URL로 이미지파일을 업로드하는 함수
-    """
-    filename = file_name
-    filepath = file_path
-
-    image_file = {
-        "file": (filename, open(filepath, "rb")),
-        "Content-Type": "image/jpg",
-        # "Content-Length": l,
-    }
-    requests.post(URL, files=image_file)
-
-    return None
-
-
-def post_image():
-    """
-    종합적인 이미지 업로드 코드
-    """
-    file_name, file_path = save_image()
-    upload_image(file_name, file_path)
-
     return None
 
 
