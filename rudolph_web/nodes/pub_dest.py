@@ -91,6 +91,7 @@ def set_msg(msg, dest, method):
 
 
 def talker():
+    process = 0
     if os.name != "nt":
         settings = termios.tcgetattr(sys.stdin)
     msg = web_rasp()
@@ -117,20 +118,23 @@ def talker():
         ) - datetime.datetime.strptime(web_time, TIME_FORMAT)
 
         if time_diff.seconds < 60:
+            process = 1
             # 서버에서 받은 시간이 1분 이내이면 break
             break
         time.sleep(1)
         rospy.loginfo("waiting for server")
 
-    rospy.loginfo("connected to server")
-    rospy.loginfo("dest: %s, method: %s", dest, method)
+    if process == 1:
 
-    for _ in range(10):
-        # 10번 msg 보내기
-        msg = set_msg(msg, dest, method)
-        pub.publish(msg)
+        rospy.loginfo("connected to server")
+        rospy.loginfo("dest: %s, method: %s", dest, method)
 
-        rate.sleep()
+        for _ in range(10):
+            # 10번 msg 보내기
+            msg = set_msg(msg, dest, method)
+            pub.publish(msg)
+
+            rate.sleep()
 
     if os.name != "nt":
         termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
