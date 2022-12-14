@@ -5,9 +5,6 @@ pub: dest_val
 e.g. 113, 0
 """
 
-
-import rospy
-from rudolph_msgs.msg import web_rasp
 import requests
 import json
 import os
@@ -71,41 +68,8 @@ def convert_dest_to_coord(dest: str):
     return convert_dict[dest]
 
 
-def set_msg(msg, dest, method):
-    """
-    dest를 좌표로 변환해서 msg에 넣어주는 함수
-    x, y, z, w는 float
-
-    return: msg
-    """
-    coordinate = convert_dest_to_coord(dest)
-
-    msg.stamp = rospy.Time.now()
-
-    msg.fin_x = coordinate[0]
-    msg.fin_y = coordinate[1]
-    msg.fin_z = coordinate[2]
-    msg.fin_w = coordinate[3]
-
-    return msg
-
-
 def talker():
-    if os.name != "nt":
-        settings = termios.tcgetattr(sys.stdin)
-    msg = web_rasp()
-
-    msg.state = 1
-    msg.mid_x = 22.443568993207002  # 112호 x좌표
-    msg.mid_y = 11.193750460054984  # 112호 y좌표
-    msg.mid_z = 0.09728127496148936  # 112호 z값
-    msg.mid_w = 0.689173570437249  # 112호 w값
-
-    rospy.init_node("pub_dest")
-    pub = rospy.Publisher("dest_val", web_rasp, queue_size=10)
-    rate = rospy.Rate(5)  # 10hz
-
-    while not rospy.is_shutdown():
+    while True:
         dest_dict = get_dest_dict()
         dest = dest_dict["dest"]  # e.g. 113
         method = dest_dict["method"]  # e.g. 0
@@ -117,30 +81,16 @@ def talker():
         ) - datetime.datetime.strptime(web_time, TIME_FORMAT)
 
         if time_diff.seconds < 60:
-            # 서버에서 받은 시간이 1분 이내이면 break
+            print("Server is connected")
             break
+
+        print(web_time, now_time, time_diff.seconds)
         time.sleep(1)
-        rospy.loginfo("waiting for server")
 
-    rospy.loginfo("connected to server")
-    rospy.loginfo("dest: %s, method: %s", dest, method)
-
-    for _ in range(10):
-        # 10번 msg 보내기
-        msg = set_msg(msg, dest, method)
-        pub.publish(msg)
-
-        rate.sleep()
-
-    if os.name != "nt":
-        termios.tcsetattr(sys.stdin, termios.TCSADRAIN, settings)
+    print(dest, method)
 
     return None
 
 
 if __name__ == "__main__":
-    try:
-        talker()
-
-    except rospy.ROSInterruptException:
-        pass
+    talker()
