@@ -1,4 +1,5 @@
 #include "rudolph_navigation/rudolph_send_goal.h"
+#include "std_srvs/Empty.h"
 
 SendGoal::SendGoal()
   : nh_priv_("~")
@@ -399,6 +400,8 @@ int main(int argc, char** argv){
   //int check = 0;
 
   while(ros::ok()){  
+    std_srvs::Empty emptymsg;
+    ros::service::call("/move_base/clear_costmaps",emptymsg);
     sendgoal.GoMidDestination();   //경유지 출발
     sendgoal.SendMidArrive();
     sendgoal.GoFinalDestination1(); // 112 전 직진
