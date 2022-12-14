@@ -75,7 +75,15 @@ void SendGoal::SetFinalDestination(double x_pos,double y_pos,double z_pos,double
   {
     actionlib::SimpleClientGoalState state = client.getState();
     ROS_INFO("Action finished: %s",state.toString().c_str());
-    start = 4;
+    if(start == 3){
+      start = 4;
+    }
+    if(start == 4){
+      start = 5;
+    }
+    if(start == 5){
+      start = 6;
+    }
   }
   else
     ROS_INFO("Action did not finish before the time out.");
@@ -83,10 +91,18 @@ void SendGoal::SetFinalDestination(double x_pos,double y_pos,double z_pos,double
 
 bool SendGoal::GoFinalDestination()
 {
-  if (start == 3)
-  {
-    SetFinalDestination(dest_x, dest_y, dest_z, dest_w);
-  }
+    if (start == 3) // 112 위방향
+    {
+      SetFinalDestination(29.064 ,11.779 ,0.097,0.99);
+    }
+    if(start == 4)  // 112 중간
+    {
+      SetFinalDestination(29.968 ,11.138 ,-0.57,0.818);
+    }
+    if(start == 5)  // 112
+    {
+      SetFinalDestination(dest_x, dest_y, dest_z, dest_w);
+    }
   return true;
 }
 
@@ -168,7 +184,7 @@ bool SendGoal::SendMidArrive()
 
 bool SendGoal::SendFinArrive()
 {
-  if(start == 4)
+  if(start == 6)
   {
     std::cout << "목적지 도착!!!!!\n";
 
@@ -185,7 +201,7 @@ bool SendGoal::SendFinArrive()
     if(Fin_Return)
     {
       std::cout << "목적지에서 출발지로!!!!!!\n";
-      start = 5;
+      start = 7;
     }
 
   }
@@ -194,7 +210,7 @@ bool SendGoal::SendFinArrive()
 
 bool SendGoal::GoBackHome()
 {
-  if(start == 5)
+  if(start == 7)
   {
     SetInitialDestination(initial_x,initial_y,initial_z,initial_w);
   }
