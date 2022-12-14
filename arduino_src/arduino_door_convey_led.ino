@@ -158,6 +158,8 @@ void turn_on_led(){
 
 void mid_point()
 {
+  opendoor();
+
   while (1)
   {
     int button_state = digitalRead(sw);
@@ -179,6 +181,7 @@ void mid_point()
 void final_point_direct()
 {
   opendoor();
+  
 
   while (1)
   {
@@ -236,13 +239,13 @@ void loop()
 
   if (state == 'c' && fin_fin == 0) // 도착지(직접 수령) 동작 -> 문이 열리고 컨베이어가 작동. 버튼이 눌리면 문이 닫히고 라파에  end_message 전송
   {
-    final_point_untect();
+    final_point_direct();
     fin_fin = 1;
   }
 
   if (state == 'd' && fin_fin == 0) // 도착지(비대면 수령) 문이 열리고 컨베이어가 작동. 이후 문이 닫히고 라파에 end_message 전송
   {
-    final_point_direct();
+    final_point_untect();
     fin_fin = 1;
   }
 }
