@@ -113,7 +113,8 @@ void SendGoal::SetFinalDestination2(double x_pos,double y_pos,double z_pos,doubl
   {
     actionlib::SimpleClientGoalState state = client.getState();
     ROS_INFO("Action finished: %s",state.toString().c_str());
-    start = 5;
+    //start = 5;
+    start = 6;
   }
   else
     ROS_INFO("Action did not finish before the time out.");
@@ -288,29 +289,29 @@ bool SendGoal::GoFinalDestination2()
 {
     if(start == 4)  // 112 중간1
     {
-      SetFinalDestination2(38.037 ,12.100 ,-0.2148, 0.976);
-      ros::param::set("/max_vel_theta",0.5);
-      ros::param::set("/min_vel_theta",-6.0);
+      SetFinalDestination2(38.037 ,11.450 ,-0.6148, 0.976);
+      // ros::param::set("/max_vel_theta",0.5);
+      // ros::param::set("/min_vel_theta",-6.0);
     }
   return true;
 }
 
-bool SendGoal::GoFinalDestination3()
-{
-    if(start == 5)  // 112 중간2
-    {
-      SetFinalDestination3(38.037 ,11.150 ,-0.6548, 0.876);
-    }
-  return true;
-}
+// bool SendGoal::GoFinalDestination3()
+// {
+//     if(start == 5)  // 112 중간2
+//     {
+//       SetFinalDestination3(38.037 ,11.150 ,-0.6548, 0.876);
+//     }
+//   return true;
+// }
 
 bool SendGoal::GoFinalDestination4()
 {
     if(start == 6)  // 112
     {
       SetFinalDestination4(dest_x, dest_y, dest_z, dest_w); //[37.021 , 10.771, 0.997, 0.121]
-      ros::param::set("/max_vel_theta",4.0);
-      ros::param::set("/min_vel_theta",4.0);
+      // ros::param::set("/max_vel_theta",4.0);
+      // ros::param::set("/min_vel_theta",4.0);
     }
   return true;
 }
@@ -402,7 +403,7 @@ int main(int argc, char** argv){
     sendgoal.SendMidArrive();
     sendgoal.GoFinalDestination1(); // 112 전 직진
     sendgoal.GoFinalDestination2(); // 112 우회전
-    sendgoal.GoFinalDestination3(); // 112 우회전2
+    //sendgoal.GoFinalDestination3(); // 112 우회전2
     sendgoal.GoFinalDestination4(); // 112 실제 위치
     sendgoal.SendFinArrive();
     sendgoal.GoBackHome(); 
