@@ -392,6 +392,13 @@ void SendGoal::SetInitialDestination(double x_pos,double y_pos,double z_pos,doub
     ROS_INFO("Action did not finish before the time out.");
 }
 
+bool SendGoal::ClearCostmap()
+{
+  std_srvs::Empty emptymsg;
+  ros::service::call("/move_base/clear_costmaps",emptymsg);
+
+  return true;
+}
 
 int main(int argc, char** argv){
   ros::init(argc, argv, "send_goal_cpp");
@@ -400,8 +407,8 @@ int main(int argc, char** argv){
   //int check = 0;
 
   while(ros::ok()){  
-    std_srvs::Empty emptymsg;
-    ros::service::call("/move_base/clear_costmaps",emptymsg);
+    
+    //sendgoal.ClearCostmap();
     sendgoal.GoMidDestination();   //경유지 출발
     sendgoal.SendMidArrive();
     sendgoal.GoFinalDestination1(); // 112 전 직진

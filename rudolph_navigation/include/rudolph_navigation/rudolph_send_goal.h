@@ -11,6 +11,7 @@ class SendGoal
     //~SendGoal();
     bool init();
     //bool GotoGoal();
+    bool ClearCostmap();
     bool GoMidDestination();
     bool GoFinalDestination1();
     bool GoFinalDestination2();
@@ -61,4 +62,4 @@ class SendGoal
     void SetFinalDestination3(double x_pos,double y_pos,double z_pos,double w_pos);
     void SetFinalDestination4(double x_pos,double y_pos,double z_pos,double w_pos);
     void SetInitialDestination(double x_pos,double y_pos,double z_pos,double w_pos);
-};    bool GoFinalDestination3();
+}; 
