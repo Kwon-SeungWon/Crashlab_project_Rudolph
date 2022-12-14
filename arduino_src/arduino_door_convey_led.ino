@@ -51,7 +51,7 @@ Stepper conStepper(stepsPerRevolution, 11, 10, 9, 8);
 
 
 void door_stepper_on()
-{ 
+{
   digitalWrite(7, HIGH);
   digitalWrite(6, HIGH);
   digitalWrite(5, HIGH);
@@ -72,7 +72,7 @@ void con_stepper_on()
   digitalWrite(10, HIGH);
   digitalWrite(9, HIGH);
   digitalWrite(8, HIGH);
- 
+
 }
 
 void con_stepper_off()
@@ -96,34 +96,19 @@ void opendoor() // 문 열기
 }
 
 void landbox() // 물건 내리기
-{ 
-  con_stepper_on();
-  delay(200);
-  conStepper.step(1200);
-  delay(1000);
-  conStepper.step(0);
-  con_stepper_off();
-  delay(200);
-}
-
-void loadbox() // 물건 싣기
 {
   con_stepper_on();
   delay(200);
-  conStepper.step(-300);
+  conStepper.step(1000);
   delay(1000);
   conStepper.step(0);
   con_stepper_off();
   delay(500);
 }
 
+
 void closedoor() // 문 닫기
 {
-  door_stepper_on();
-  delay(200);
-  doorStepper.step(-50);
-  delay(400);
-  doorStepper.step(0);
   door_stepper_off();
   delay(200);
 }
@@ -158,20 +143,21 @@ void loop()
 { while (true)
   { now = millis();
     time_interval = now - past;
-    if (time_interval > 2000)
+    if (time_interval > 1000)
     {
       pixels.clear();
-      long randNumber1 = random(1, NUMPIXELS); //led 갯수가 40개라고 가정
-      //long ledColor = random(1, 150);
-      pixels.setPixelColor(randNumber1, pixels.Color(10, 0, 0));
+      for (int i = 1; i < 70; i++)
+      {
 
-      long randNumber2 = random(1, NUMPIXELS); //led 갯수가 40개라고 가정
-      pixels.setPixelColor(randNumber2, pixels.Color(0, 10, 0));
+        long randNumber1 = random(1, NUMPIXELS); //led 갯수가 NUMPIXELS(현재:44) 빨간색 생성
+        pixels.setPixelColor(randNumber1, pixels.Color(10, 0, 0));
 
+        long randNumber2 = random(1, NUMPIXELS); //led 갯수가 NUMPIXELS(현재:44) 초 생
+        pixels.setPixelColor(randNumber2, pixels.Color(0, 10, 0));
+      }
       pixels.show();
       past = now;
     }
-
     state = Serial.read(); //라파 시리얼 받기
     //Serial.write(end_message);
     end_message = 0;
@@ -179,7 +165,6 @@ void loop()
     int button_state = digitalRead(sw); //버튼 상태. 풀업상태이므로 기본 1, 누를 때 0
 
     delay(10);
-    //Serial.println('0');
 
 
     if (state == 'a') //-> 기본 상태
@@ -195,29 +180,29 @@ void loop()
         opendoor();
       }
       else if (main_process == 1)
-      {while(1)
-      {
-       int button_state = digitalRead(sw);
-       delay(10);
-        if (button_state == 0)
+      { while (1)
         {
-          closedoor();
-          state = 'a';
-          //end_message=0;
-          for(int i=0;i<6;i++)
-          {
-          Serial.println('1');
+          int button_state = digitalRead(sw);
           delay(10);
-          i++;
+          if (button_state == 0)
+          {
+            closedoor();
+            state = 'a';
+            //end_message=0;
+            for (int i = 0; i < 6; i++)
+            {
+              Serial.println('1');
+              delay(10);
+              i++;
+            }
+            mid_fin=1;
           }
-          mid_fin=1;
         }
-      }
       }
       main_process = 1;
     }
 
-    if (state == 'c'&&fin_fin==0) // 도착지(직접 수령) 동작 -> 문이 열리고 컨베이어가 작동. 버튼이 눌리면 문이 닫히고 라파에  end_message 전송
+    if (state == 'c'&& fin_fin==0) // 도착지(직접 수령) 동작 -> 문이 열리고 컨베이어가 작동. 버튼이 눌리면 문이 닫히고 라파에  end_message 전송
     {
       if (main_process == 1)
       {
@@ -225,27 +210,27 @@ void loop()
         landbox();
       }
       if (main_process == 2)
-      {while(1)
-      { delay(10);
-        int button_state = digitalRead(sw);
-        if (button_state == 0)
-        {
-          closedoor();
-          state = 'a';
-          //end_message=1;
-          for(int i=0;i<6;i++)
+      { while (1)
+        { delay(10);
+          int button_state = digitalRead(sw);
+          if (button_state == 0)
           {
-          Serial.println('2');
-          delay(10);
-          i++;
-          } 
-          fin_fin = 1;
+            closedoor();
+            state = 'a';
+            //end_message=1;
+            for (int i = 0; i < 6; i++)
+            {
+              Serial.println('2');
+              delay(10);
+              i++;
+            }
+            fin_fin=1;
+          }
         }
-      }
       }
       main_process = 2;
     }
-    if (state == 'd' && fin_fin == 0) // 도착지(비대면 수령) 문이 열리고 컨베이어가 작동. 이후 문이 닫히고 라파에 end_message 전송
+    if (state == 'd'&& fin_fin==0) // 도착지(비대면 수령) 문이 열리고 컨베이어가 작동. 이후 문이 닫히고 라파에 end_message 전송
     {
       if (main_process == 1)
       {
@@ -257,15 +242,15 @@ void loop()
       {
         state = 'a';
         //end_message=2;
-        for(int i=0;i<6;i++)
-          {
+        for (int i = 0; i < 6; i++)
+        {
           Serial.println('3');
           delay(10);
           i++;
-          }
-          fin_fin = 1;
+        }
+        fin_fin=1;
       }
       main_process = 2;
     }
-  } 
+  }
 }
