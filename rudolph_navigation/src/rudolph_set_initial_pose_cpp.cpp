@@ -15,18 +15,22 @@ int main(int argc, char** argv){
     pose.header.frame_id = "map";
     pose.header.stamp = ros::Time::now();
 
-    double x,y,theta;
+    double x,y;
+
+    double theta = 0.08;
+
+    double X, Y, Z;
 
     // Input Robot's real Initial pose
     std::cout << "Please input your robot's x,y,theta\n";
-    std::cin >> x >> y >> theta;
+    std::cin >> x >> y;
 
     // set x,y position
     pose.pose.pose.position.x = x;
     pose.pose.pose.position.y = y;
     pose.pose.pose.position.z = 0.0;
 
-    pose.pose.pose.orientation.z = theta;
+    pose.pose.pose.orientation.z = sin(theta*0.5);
 
     // set theta
     tf::Quaternion quat;

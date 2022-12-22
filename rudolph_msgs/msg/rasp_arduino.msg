@@ -1,6 +1,7 @@
-#아두이노와 라파간 통신
+# master_val 네비게이션 -> 서버 
+# slave_val 서버-> 네비게이션
 
 bool mid_arrive
-bool mid_exit
-bool final_arrive
-bool final_exit
+bool mid_fin
+bool fin_arrive
+bool fin_return

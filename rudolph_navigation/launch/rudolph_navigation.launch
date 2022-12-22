@@ -1,6 +1,9 @@
 <launch>
   <!-- Arguments -->
-  <arg name="map_file" default="$(find rudolph_navigation)/maps/map.yaml"/>
+
+  <!-- <arg name="map_file" default="$(find rudolph_navigation)/maps/map.yaml"/> -->
+  
+  <arg name="map_file" default="$(find rudolph_navigation)/maps/map3.yaml"/>
   <arg name="open_rviz" default="true"/>
   <arg name="move_forward_only" default="false"/>
 
@@ -19,8 +22,17 @@
   </include>
   
   <!-- rviz -->
-  <group if="$(arg open_rviz)"> 
+  <!-- <group if="$(arg open_rviz)"> 
     <node pkg="rviz" type="rviz" name="rviz" required="true"
           args="-d $(find rudolph_navigation)/rviz/rudolph_navigation.rviz"/>
-  </group>
-</launch식
+  </group> -->
+
+  <!-- Set initial Pose-->
+  <node name="inital_pose" pkg="rudolph_navigation" type="rudolph_set_initial_pose_cpp" output="screen"/>
+
+  <!-- Send Goal-->
+  <node name="GOGO" pkg="rudolph_navigation" type="rudolph_send_goal_cpp" output="screen"/> 
+
+  <!-- clear costmap
+  <node name="CLEAR" pkg="rudolph_navigation" type="rudolph_clearmap_cpp" output="screen"/>  -->
+</launch>

@@ -1,0 +1,34 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/opt/ros/noetic/include/**",
+        "/home/kwon/catkin_ws/devel/include/**",
+        "/home/kwon/catkin_ws/src/DynamixelSDK/ros/dynamixel_sdk/include/**",
+        "/home/kwon/catkin_ws/src/ex_urdf/include/**",
+        "/home/kwon/catkin_ws/src/imsogyeong_action/include/**",
+        "/home/kwon/catkin_ws/src/rudolph/rudolph_navigation/include/**",
+        "/home/kwon/catkin_ws/src/srv_tutorial/include/**",
+        "/home/kwon/catkin_ws/src/test_pkg/include/**",
+        "/home/kwon/catkin_ws/src/turtlebot3_simulations/turtlebot3_fake/include/**",
+        "/home/kwon/catkin_ws/src/turtlebot3_simulations/turtlebot3_gazebo/include/**",
+        "/home/kwon/catkin_ws/src/turtlebot3/turtlebot3_navigation/include/**",
+        "/home/kwon/catkin_ws/src/turtlebot3/turtlebot3_slam/include/**",
+        "/home/kwon/catkin_ws/src/turtlebot_study/include/**",
+        "/home/kwon/catkin_ws/src/turtlemimic/include/**",
+        "/home/kwon/catkin_ws/src/turtlesim_srv/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

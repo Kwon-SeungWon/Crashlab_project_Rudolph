@@ -213,3 +213,6 @@ target_link_libraries(rudolph_send_goal_cpp ${catkin_LIBRARIES})
 
 add_executable(rudolph_set_initial_pose_cpp src/rudolph_set_initial_pose_cpp.cpp)
 target_link_libraries(rudolph_set_initial_pose_cpp ${catkin_LIBRARIES})
+
+add_executable(rudolph_clearmap_cpp src/rudolph_clearmap_cpp.cpp)
+target_link_libraries(rudolph_clearmap_cpp ${catkin_LIBRARIES})
