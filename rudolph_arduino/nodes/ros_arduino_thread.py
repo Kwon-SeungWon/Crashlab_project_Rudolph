@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
-arduino와 serial 통신하는 코드
-목적지에 도착하면, 이미지를 업로드하고, arduino에게 목적지 도착 신호를 보낸다.
+arduino와 serial 통신하는 코드.
 
 모듈:
 serial
@@ -35,7 +34,7 @@ else:
 
 # Rx Tx 포트에서는 '/dev/ttyACM0'을 사용
 ser = serial.Serial("/dev/ttyACM0", 9600)
-URL = "http://140.238.28.123/fileUpload"  # 이미지 업로드 URL
+URL = "http://xxx.xxx.xxx.xxx/fileUpload"  # 이미지 업로드 URL
 TIME_FORMAT = "%Y-%m-%d_%H:%M:%S"
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -117,7 +116,7 @@ def get_serial():
     pub_msg.fin_arrive = 0
     pub_msg.fin_return = 0
 
-    for _ in range(10):
+    for _ in range(3):
         pub.publish(pub_msg)
         rospy.loginfo(pub_msg)
         rate.sleep()
@@ -129,46 +128,46 @@ def get_serial():
             serial값을 읽은 후, pub_msg에 변환해 저장.
             """
             val = ser.readline()  # 아두이노에서 보낸 메세지를 받는 코드
-            decode_val = val.decode()[: len(val) - 1]  # 메세지 디코딩 후, 마지막 개행문자 제거
-            decode_val = decode_val.strip("\r")
+            decode_val = val.decode()[: len(val) - 1]  # 메세지 디코딩
+            decode_val = decode_val.strip("\r")  # 개행문자 제거
             rospy.loginfo(f"arduino -> rasp_sub: {decode_val}")
 
-            if decode_val == "1":
+            if decode_val == "1":  # 경유지 동작 수행 종료
                 pub_msg.mid_arrive = 0
                 pub_msg.mid_fin = 1
                 pub_msg.fin_arrive = 0
                 pub_msg.fin_return = 0
 
-                for _ in range(10):
+                for _ in range(3):
                     pub.publish(pub_msg)
                     rospy.loginfo(pub_msg)
                     rate.sleep()
 
-            if decode_val == "2":
+            if decode_val == "2":  # 배송지 동작 수행 종료(대면 수령)
                 pub_msg.mid_arrive = 0
                 pub_msg.mid_fin = 0
                 pub_msg.fin_arrive = 0
                 pub_msg.fin_return = 1
 
-                for _ in range(10):
+                for _ in range(3):
                     pub.publish(pub_msg)
                     rospy.loginfo(pub_msg)
                     rate.sleep()
 
-            if decode_val == "3":
+            if decode_val == "3":  # 배송지 동작 수행 종료(비대면 수령)
                 pub_msg.mid_arrive = 0
                 pub_msg.mid_fin = 0
                 pub_msg.fin_arrive = 0
                 pub_msg.fin_return = 1
 
-                for _ in range(10):
+                for _ in range(3):
                     pub.publish(pub_msg)
                     rospy.loginfo(pub_msg)
                     rate.sleep()
 
                 if count == 0:
                     time.sleep(3)
-                    post_image()
+                    post_image()  # 인증사진 전송
                     count = 1
 
         rate.sleep()
@@ -180,22 +179,33 @@ def act_callback(msg):
     master_val 토픽을 구독하는 콜백 함수
     master_val 토픽에서 받은 메세지를 인코딩 한 후, 아두이노로 즉시 보낸다.
 
-    아두이노에게 보내는 메세지: 'b' or 'c' (char형식에 유의)
+    아두이노에게 보내는 메세지: 'b' or 'c' or 'd' (char형식에 유의)
     """
+
+    def send_msg(msg):
+        msg = str(msg)
+        msg = msg.encode("utf-16")
+        ser.write(msg)
+
+        return None
+
     if msg.mid_arrive == 1:
         for _ in range(3):
-            var = "b"
-            var = var.encode("utf-16")
-            ser.write(var)
+            send_msg("b")
         rospy.loginfo("master val: mid_arrive == 1")
+        return None
 
-    elif msg.fin_arrive == 1:
+    if msg.fin_arrive == 1:
         for _ in range(3):
-            var = "d"
-            var = var.encode("utf-16")
-            ser.write(var)
+            send_msg("c")
         rospy.loginfo("master val: fin_arrive == 1")
-    return None
+        return None
+
+    if msg.fin_arrive == 1:
+        for _ in range(3):
+            send_msg("d")
+        rospy.loginfo("master val: fin_arrive == 1")
+        return None
 
 
 def main():
